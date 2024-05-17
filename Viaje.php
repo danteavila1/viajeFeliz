@@ -6,13 +6,17 @@ class Viaje {
     private $cantidadMaxPasajeros;
     private $colPasajeros;
     private $objResponsable;
+    private $costo;
+    private $sumaCostos;
 
-    public function __construct($vcodigo, $vdestino, $vcantidadMaxPasajeros, $vcolPasajeros, $vobjResponsable){
+    public function __construct($vcodigo, $vdestino, $vcantidadMaxPasajeros, $vcolPasajeros, $vobjResponsable, $vcosto, $vsumaCostos){
         $this->codigo = $vcodigo;
         $this->destino = $vdestino;
         $this->cantidadMaxPasajeros = $vcantidadMaxPasajeros;
         $this->colPasajeros = $vcolPasajeros;
         $this->objResponsable = $vobjResponsable;
+        $this->costo = $vcosto;
+        $this->sumaCostos = $vsumaCostos;
     }
 
     public function getCodigo() {
@@ -55,6 +59,22 @@ class Viaje {
         $this->objResponsable = $objResponsable;
     }
 
+    public function getCosto() {
+		return $this->costo;
+	}
+
+	public function setCosto($value) {
+		$this->costo = $value;
+	}
+
+	public function getSumaCostos() {
+		return $this->sumaCostos;
+	}
+
+	public function setSumaCostos($value) {
+		$this->sumaCostos = $value;
+	}
+
     public function mostrarCadena($arreglo){
         $cadena = '';
         foreach($arreglo as $pasajero){
@@ -70,24 +90,53 @@ class Viaje {
             $this->getObjResponsable();
     }
 
-    public function agregarPasajero($nombre, $apellido, $documento, $telefono){
-        $nuevoPasajero = new Pasajero($nombre, $apellido, $documento, $telefono);
-        $coleccionPasajerosCopia = $this->getColPasajeros();
-        $i=0;
-        $existePasajero=false;
-        while($i<count($coleccionPasajerosCopia) && $existePasajero==false){
-            if($coleccionPasajerosCopia[$i]->getDocumento() == $documento){
-                $existePasajero=true;
+    public function buscarPasajero($numDocumento){
+        $pasajero = null;
+        $pasajeros = $this->getColPasajeros();
+        for ($i=0; $i < count($pasajeros); $i++) { 
+            if ($pasajeros[$i]->getNumeroDocumento() == $numDocumento){
+                $pasajero = $pasajeros[$i];
             }
-            $i++;
         }
+        return $pasajero;
+    }
 
-        if($existePasajero==false){
-        $coleccionPasajerosCopia[] = $nuevoPasajero;
-        $this->setColPasajeros($coleccionPasajerosCopia);
+    public function agregarPasajero(Pasajero $nuevoPasajero){
+        $agregado = false;
+        $doc = $nuevoPasajero->getNumeroDocumento();
+        $cantPasajeros = count($this->getColPasajeros());
+        $cantMaxima = $this->getCantidadMaxPasajeros();
+        if ($cantPasajeros < $cantMaxima && $this->buscarPasajero($doc) == null){
+            $pasajeros = $this->getColPasajeros();
+            array_push($pasajeros, $nuevoPasajero);
+            $this->setColPasajeros($pasajeros);
+            $agregado = true;
         }
+        return $agregado;
+    }
 
-        return $existePasajero;
+    public function venderPasaje($objPasajero){
+        $agregado = $this->agregarPasajero($objPasajero);
+        if($agregado==true) {
+            $incremento = $objPasajero->darPorcentajeIncremento();
+            $costoFinal = $this->getCosto() * (1 + $incremento / 100);
+            $costosAbonados = $this->getSumaCostos() + $costoFinal;
+            $this->setSumaCostos($costosAbonados);
+        } else {
+            $costoFinal = -1;
+        }
+        return $costoFinal;
+    }
+
+    public function hayPasajesDisponible(){
+        $hayPasajes = false;
+        $cantPasajeros = count($this->getColPasajeros());
+        $cantMaxima = $this->getCantidadMaxPasajeros();
+        if ($cantPasajeros < $cantMaxima){
+            $hayPasajes = true;
+        }
+        return $hayPasajes;
     }
     
+
 }
