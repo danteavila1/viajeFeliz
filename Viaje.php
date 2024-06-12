@@ -8,8 +8,9 @@ class Viaje {
     private $objResponsable;
     private $costo;
     private $sumaCostos;
+    private $objEmpresa;
 
-    public function __construct($vcodigo, $vdestino, $vcantidadMaxPasajeros, $vcolPasajeros, $vobjResponsable, $vcosto, $vsumaCostos){
+    public function __construct($vcodigo, $vdestino, $vcantidadMaxPasajeros, $vcolPasajeros, $vobjResponsable, $vcosto, $vsumaCostos, $vobjEmpresa){
         $this->codigo = $vcodigo;
         $this->destino = $vdestino;
         $this->cantidadMaxPasajeros = $vcantidadMaxPasajeros;
@@ -17,6 +18,7 @@ class Viaje {
         $this->objResponsable = $vobjResponsable;
         $this->costo = $vcosto;
         $this->sumaCostos = $vsumaCostos;
+        $this->objEmpresa = $vobjEmpresa;
     }
 
     public function getCodigo() {
@@ -75,6 +77,14 @@ class Viaje {
 		$this->sumaCostos = $value;
 	}
 
+    public function getObjEmpresa() {
+		return $this->objEmpresa;
+	}
+
+	public function setObjEmpresa($value) {
+		$this->objEmpresa = $value;
+	}
+
     public function mostrarCadena($arreglo){
         $cadena = '';
         foreach($arreglo as $pasajero){
@@ -87,7 +97,7 @@ class Viaje {
         return $this->getCodigo() ."\n". $this->getDestino() ."\n".
             $this->getCantidadMaxPasajeros() ."\n". 
             $this->mostrarCadena($this->getColPasajeros()) ."\n".
-            $this->getObjResponsable();
+            $this->getObjResponsable()."\n".$this->getObjEmpresa()."\n";
     }
 
     public function buscarPasajero($numDocumento){
@@ -137,6 +147,5 @@ class Viaje {
         }
         return $hayPasajes;
     }
-    
 
 }

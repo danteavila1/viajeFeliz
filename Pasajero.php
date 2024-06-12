@@ -5,16 +5,16 @@ Class Pasajero {
     private $apellido;
     private $numeroDocumento;
     private $telefono;
-    private $numeroAsiento;
-    private $numeroTicket;
+    // private $numeroAsiento;
+    // private $numeroTicket;
 
-    public function __construct($vnombre, $vapellido, $vnumeroDocumento, $vtelefono, $vnumeroAsiento, $vnumeroTicket){
+    public function __construct($vnombre, $vapellido, $vnumeroDocumento, $vtelefono){
         $this->nombre = $vnombre;
         $this->apellido = $vapellido;
         $this->numeroDocumento = $vnumeroDocumento;
         $this->telefono = $vtelefono;
-        $this->numeroAsiento = $vnumeroAsiento;
-        $this->numeroTicket = $vnumeroTicket;
+        // $this->numeroAsiento = $vnumeroAsiento;
+        // $this->numeroTicket = $vnumeroTicket;
     }
 
     public function setNombre ($nombre){
@@ -23,19 +23,19 @@ Class Pasajero {
     public function getNombre(){
         return $this->nombre;
     }
-    public function setNumeroAsiento($numeroAsiento){
-        $this->numeroAsiento=$numeroAsiento;
-    }
-    public function getNumeroAsiento(){
-        return $this->numeroAsiento;
-    }
+    // public function setNumeroAsiento($numeroAsiento){
+    //     $this->numeroAsiento=$numeroAsiento;
+    // }
+    // public function getNumeroAsiento(){
+    //     return $this->numeroAsiento;
+    // }
 
-    public function setNumeroTicket ($numeroTicket){
-        $this->numeroTicket = $numeroTicket;
-    }
-    public function getNumeroTicket(){
-        return $this->numeroTicket;
-    }
+    // public function setNumeroTicket ($numeroTicket){
+    //     $this->numeroTicket = $numeroTicket;
+    // }
+    // public function getNumeroTicket(){
+    //     return $this->numeroTicket;
+    // }
 
 	public function getApellido() {
 		return $this->apellido;
@@ -63,8 +63,7 @@ Class Pasajero {
 
     public function __toString(){
         return $this->getNombre() ."\n". $this->getApellido() ."\n".
-        $this->getTelefono() ."\n". $this->getNumeroDocumento() ."\n".
-        $this->getNumeroAsiento() ."\n". $this->getNumeroTicket()."\n";
+        $this->getTelefono() ."\n". $this->getNumeroDocumento() ."\n";
     }
 
     public function darPorcentajeIncremento(){
