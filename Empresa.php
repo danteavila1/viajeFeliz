@@ -39,9 +39,9 @@ class Empresa{
     public function getColViajes(){
         return $this->colViajes;
     }
-   
+
     public function setIdEmpresa($IdEmp){
-        $this->idempresa = $IdEmp;
+        $this->idEmpresa = $IdEmp;
     }
 
     public function setENombre($Nom){
@@ -103,7 +103,7 @@ class Empresa{
 
     }
 
-      /**
+    /**
      * recupera una lista de empresa de la base de datos
      * @param string
      * @return array
@@ -133,7 +133,7 @@ class Empresa{
                     $eDireccion = $row['eDireccion'];
 
                     $empresa=new Empresa();
-                    $empresa->cargar($idempresa,$enombre,$edireccion);
+                    $empresa->cargar($IdEmp,$Enombre,$eDireccion);
 					array_push($arregloEmpresas,$empresa);
                 }
 
@@ -159,7 +159,7 @@ class Empresa{
         $base = new BaseDatos();
         $resp = false;
         $consultaInsertar = "INSERT INTO empresa (enombre, edireccion)
-                             VALUES ('".$this->getENombre()."','".$this->getEDireccion()."')";
+                            VALUES ('".$this->getENombre()."','".$this->getEDireccion()."')";
 
         if($base->Iniciar()){
 
@@ -176,9 +176,9 @@ class Empresa{
         }
 
         return $resp;
-     }
+    }
 
-     /**
+    /**
      * modifica la información de la empresa en la base de datos
      * @return boolean
      */
