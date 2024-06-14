@@ -78,16 +78,16 @@ class Empresa{
     public function buscar ($idEmpresa){
 
         $base = new BaseDatos();
-        $consultaEmpresa = "Select * from empresa where idempresa=".$idEmpresa;
+        $consultaEmpresa = "SELECT * from empresa WHERE idempresa=".$idEmpresa;
         $resp = false;
 
         if($base->Iniciar()){
             if($base->Ejecutar($consultaEmpresa)){
-                if($row = $base->Registro()){
+                if($row2 = $base->Registro()){
 
-                    $this->setIdEmpresa($row['idEmpresa']);
-                    $this->setENombre($row['eNombre']);
-                    $this->setEDireccion($row['eDireccion']);
+                    $this->setIdEmpresa($row2['idEmpresa']);
+                    $this->setENombre($row2['eNombre']);
+                    $this->setEDireccion($row2['eDireccion']);
                     $resp = true;
                 }
 
@@ -113,7 +113,7 @@ class Empresa{
 
         $arregloEmpresas = null;
         $base = new BaseDatos();
-        $consultaEmpresa = "Select * from empresa ";
+        $consultaEmpresa = "SELECT * from empresa ";
 
         if($condicion != ""){
             $consultaEmpresa = $consultaEmpresa.' where '.$condicion;
@@ -126,11 +126,11 @@ class Empresa{
 
                 $arregloEmpresas = array();
 
-                while($row=$base->Registro()){
+                while($row2=$base->Registro()){
 
-                    $IdEmp = $row['idEmpresa'];
-                    $Enombre = $row['eNombre'];
-                    $eDireccion = $row['eDireccion'];
+                    $IdEmp = $row2['idEmpresa'];
+                    $Enombre = $row2['eNombre'];
+                    $eDireccion = $row2['eDireccion'];
 
                     $empresa=new Empresa();
                     $empresa->cargar($IdEmp,$Enombre,$eDireccion);
