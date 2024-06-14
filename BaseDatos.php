@@ -53,7 +53,7 @@ class BaseDatos {
                 $this->ERROR = mysqli_errno($conexion) . ": " .mysqli_error($conexion);
             }
         }else{
-            $this->ERROR =  mysqli_errno($conexion) . ": " .mysqli_error($conexion);
+            $this->ERROR =  mysqli_connect_errno($conexion) . ": " .mysqli_connect_error($conexion);
         }
         return $resp;
     }
@@ -85,7 +85,7 @@ class BaseDatos {
      */
     public function Registro() {
         $resp = null;
-        if ($this->RESULT){
+        if ($this->RESULT instanceof mysqli_result){
             unset($this->ERROR);
             if($temp = mysqli_fetch_assoc($this->RESULT)){
                 $resp = $temp;
@@ -114,7 +114,7 @@ class BaseDatos {
             $resp =  $id;
         } else {
             $this->ERROR =mysqli_errno( $this->CONEXION) . ": " . mysqli_error( $this->CONEXION);
-           
+            
         }
     return $resp;
     }
