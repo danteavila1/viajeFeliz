@@ -20,6 +20,15 @@ class Empresa{
         $this->colViajes= [];
     }
 
+    public function cargar($idEmpresa,$nombre,$direccion){
+
+        $this->setIdEmpresa($idEmpresa);
+        $this->setENombre($nombre);
+        $this->setEDireccion($direccion);
+
+
+    }
+
     public function getIdEmpresa(){
         return $this->idEmpresa;
     }
@@ -40,16 +49,16 @@ class Empresa{
         return $this->colViajes;
     }
 
-    public function setIdEmpresa($IdEmp){
-        $this->idEmpresa = $IdEmp;
+    public function setIdEmpresa($IdEmpresa){
+        $this->idEmpresa = $IdEmpresa;
     }
 
-    public function setENombre($Nom){
-        $this->eNombre = $Nom;
+    public function setENombre($Nombre){
+        $this->eNombre = $Nombre;
     }
 
-    public function setEDireccion($Dir){
-        $this->eDireccion = $Dir;
+    public function setEDireccion($direccion){
+        $this->eDireccion = $direccion;
     }
 
     public function setMensajeOperacion($mensajeOperacion){
@@ -59,16 +68,9 @@ class Empresa{
     public function setColViajes($colViajes){
         $this->colViajes = $colViajes;
     }
- 
-   
-    public function cargar($IdEmp,$Nom,$Dir){
-
-        $this->setIdEmpresa($IdEmp);
-        $this->setENombre($Nom);
-        $this->setEDireccion($Dir);
 
 
-    }
+
 
     /**Recupera los datos de una empresa por id Empresa
      * @param int $idEmpresa
@@ -84,10 +86,14 @@ class Empresa{
         if($base->Iniciar()){
             if($base->Ejecutar($consultaEmpresa)){
                 if($row2 = $base->Registro()){
-
-                    $this->setIdEmpresa($row2['idEmpresa']);
+                    $this->setIdEmpresa($idEmpresa);
                     $this->setENombre($row2['eNombre']);
                     $this->setEDireccion($row2['eDireccion']);
+                    
+                    $viaje = new Viaje();
+                    $viaje->Buscar($row2['idviaje']);
+                    $this->setColViajes($viaje);
+
                     $resp = true;
                 }
 
