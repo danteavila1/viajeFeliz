@@ -203,14 +203,14 @@ class Empresa{
         }
 
         return $resp;
-     }
+    }
 
-     /**
+    /**
      * elimina el registro de la empresa de la base de datos
      * @return boolean
      */
 
-     public function eliminar (){
+    public function eliminar (){
 
         $resp = false;
         $base = new BaseDatos();
@@ -225,14 +225,14 @@ class Empresa{
             }
 
         }else{
-             $this->setMensajeOperacion($base->getError());
+            $this->setMensajeOperacion($base->getError());
         }
 
         return $resp; 
     }
-     
+    
 
-     /**
+    /**
      * retorna una coleccion de viajes en una cadena
      * @return string
      */
