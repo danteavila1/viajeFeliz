@@ -8,12 +8,11 @@ class Viaje {
     private $colPasajeros;
     private $objResponsable;
     private $costo;
-<<<<<<< HEAD
     private $sumaCostos;
     private $objEmpresa;
 
-    public function __construct($vcodigo, $vdestino, $vcantidadMaxPasajeros, $vcolPasajeros, $vobjResponsable, $vcosto, $vsumaCostos, $vobjEmpresa){
-        $this->codigo = $vcodigo;
+    public function __construct($vidViaje, $vdestino, $vcantidadMaxPasajeros, $vcolPasajeros, $vobjResponsable, $vcosto, $vsumaCostos, $vobjEmpresa){
+        $this->idViaje = $vidViaje;
         $this->destino = $vdestino;
         $this->cantidadMaxPasajeros = $vcantidadMaxPasajeros;
         $this->colPasajeros = $vcolPasajeros;
@@ -21,16 +20,6 @@ class Viaje {
         $this->costo = $vcosto;
         $this->sumaCostos = $vsumaCostos;
         $this->objEmpresa = $vobjEmpresa;
-=======
-    private $objEmpresa;
-    private $mensajeOperacion;
-
-    public function __construct(){
-        $this->idViaje = 0;
-        $this->destino = "";
-        $this->cantidadMaxPasajeros = 0;
-        $this->costo = 0;
->>>>>>> 49dee6549dbf94706dadf4ff3bbc4618f393d3ea
     }
 
     public function cargar($idViaje, $destino, $cantidadMaxPasajeros,$colPasajeros, $objEmpresa, $objResponsable, $costo){
@@ -92,15 +81,6 @@ class Viaje {
 		$this->costo = $costo;
 	}
 
-	public function getObjEmpresa() {
-		return $this->objEmpresa;
-	}
-
-	public function setObjEmpresa($objEmpresa) {
-		$this->objEmpresa = $objEmpresa;
-	}
-
-<<<<<<< HEAD
     public function getObjEmpresa() {
 		return $this->objEmpresa;
 	}
@@ -108,19 +88,6 @@ class Viaje {
 	public function setObjEmpresa($value) {
 		$this->objEmpresa = $value;
 	}
-=======
-    public function getMensajeOperacion(){
-        return $this->mensajeOperacion;
-    }
-
-    public function setMensajeOperacion($mensajeOperacion){
-        $this->mensajeOperacion = $mensajeOperacion;
-    }
-
-    
-
-
->>>>>>> 49dee6549dbf94706dadf4ff3bbc4618f393d3ea
 
     public function mostrarCadena($arreglo){
         $cadena = '';

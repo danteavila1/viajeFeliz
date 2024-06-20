@@ -10,18 +10,18 @@
     )ENGINE=InnoDB DEFAULT CHARSET=utf8; */
 
 Class Persona {
-    private $nrodoc;
-    private $pnombre;
-    private $papellido;
-    private $ptelefono;
+    private $nroDoc;
+    private $nombre;
+    private $apellido;
+    private $telefono;
     private $direccion;
     private $mensajeoperacion;
 
     public function __construct(){
-        $this->nrodoc = "";
-        $this->pnombre = "";
-        $this->papellido = "";
-        $this->ptelefono = "";
+        $this->nroDoc = "";
+        $this->nombre = "";
+        $this->apellido = "";
+        $this->telefono = "";
         $this->direccion = "";
         $this->mensajeoperacion = "";
     }
@@ -36,16 +36,16 @@ Class Persona {
 
     //Metodos GET
     public function getNroDoc(){
-        return $this->nrodoc;
+        return $this->nroDoc;
     }
     public function getNombre(){
-        return $this->pnombre;
+        return $this->nombre;
     }
     public function getApellido(){
-        return $this->papellido;
+        return $this->apellido;
     }
     public function getTelefono(){
-        return $this->ptelefono;
+        return $this->telefono;
     }
     public function getDireccion(){
         return $this->direccion;
@@ -56,16 +56,16 @@ Class Persona {
 
     //Metodos SET
     public function setNroDoc($pNumDoc){
-        $this->nrodoc = $pNumDoc;
+        $this->nroDoc = $pNumDoc;
     }
     public function setNombre($pNombre){
-        $this->pnombre = $pNombre;
+        $this->nombre = $pNombre;
     }
     public function setApellido($pApellido){
-        $this->papellido = $pApellido;
+        $this->apellido = $pApellido;
     }
     public function setTelefono($pTelefono){
-        $this->ptelefono = $pTelefono;
+        $this->telefono = $pTelefono;
     }
     public function setDireccion($pDireccion){
         $this->direccion = $pDireccion;
@@ -192,6 +192,5 @@ Class Persona {
 
     public function __toString(){
         return "Numero de documento: " . $this->getNroDoc() . "\n Nombre: " . $this->getNombre() . "\n Apellido: " . $this->getApellido() . "\n Telefono: " . $this->getTelefono() . "\n Direccion: " . $this->getDireccion();
-			
 	}
 }

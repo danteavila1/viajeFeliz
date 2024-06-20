@@ -1,23 +1,20 @@
 <?php
 
-class ResponsableV {
+class ResponsableV extends Persona{
     private $numEmpleado;
     private $numLicencia;
-    private $nombre;
-    private $apellido;
     private $mensajeOperacion;
 
     public function __construct(){
+        parent::__construct();
         $this->numEmpleado = 0;
         $this->numLicencia = "";
-        $this->nombre = "";
-        $this->apellido = "";
     }
 
-    public function cargar($numLicencia, $nombre, $apellido){
-        $this->setNumLicencia($numLicencia);
-        $this->setnombre($nombre);
-        $this->setApellido($apellido);
+    public function cargar($nroDoc, $nombre, $apellido, $telefono, $direccion, $numeroEmpleado=null, $numeroLicencia=null){
+        parent::cargar($nroDoc, $nombre, $apellido, $telefono ,$direccion);
+		$this->setNumEmpleado($numeroEmpleado);
+        $this->setNumLicencia($numeroLicencia);
     }
 
 
@@ -37,21 +34,6 @@ class ResponsableV {
         return $this->numLicencia;
     }
 
-    public function setNombre($nombre){
-        $this->nombre = $nombre;
-    }
-
-    public function getNombre(){
-        return $this->nombre;
-    }
-
-    public function setApellido($apellido){
-        $this->apellido = $apellido;
-    }
-
-    public function getApellido(){
-        return $this->apellido;
-    }
 
     public function getMensajeOperacion(){
         return $this->mensajeOperacion;
@@ -62,8 +44,9 @@ class ResponsableV {
     }
 
     public function __toString(){
-        return $this->getNumEmpleado() ."\n". $this->getNumLicencia()
-        ."\n". $this->getNombre() ."\n". $this->getApellido()."\n";
+        $cadena= parent::__toString();
+        $cadena.= "Empleado: {$this->getNumEmpleado()}, Licencia: {$this->getNumLicencia()})";
+        return $cadena;
     }
 
     public function Buscar($numEmpleado){

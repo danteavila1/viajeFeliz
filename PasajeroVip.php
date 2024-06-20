@@ -6,7 +6,7 @@ class PasajeroVip extends Pasajero {
     private $cantMillas;
 
     public function __construct($vnombre, $vapellido, $vnumeroDocumento, $vtelefono, $vnumeroAsiento, $vnumeroTicket, $vnumeroFrecuente, $vcantMillas){
-        parent::__construct($vnombre, $vapellido, $vnumeroDocumento, $vtelefono, $vnumeroAsiento, $vnumeroTicket);
+        parent::__construct();
         $this->numeroFrecuente = $vnumeroFrecuente;
         $this->cantMillas = $vcantMillas;
     }
