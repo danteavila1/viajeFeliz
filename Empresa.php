@@ -112,10 +112,8 @@ class Empresa{
         if($base->Iniciar()){
 
             if($base->Ejecutar($consultaEmpresa)){
-
                 $arregloEmpresas = array();
-
-                while($row2=$base->Registro()){
+                while($row2 = $base->Registro()){
 
                     $IdEmp = $row2['idempresa'];
                     $Enombre = $row2['enombre'];

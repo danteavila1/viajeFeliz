@@ -1,6 +1,6 @@
 <?php
 
-Class Pasajero {
+Class Pasajero extends Persona {
     private $nombre;
     private $apellido;
     private $numeroDocumento;
@@ -12,6 +12,7 @@ Class Pasajero {
 
     public function __construct()
     {
+		parent::__construct();
         $this->numeroDocumento = "";
         $this->nombre = "";
         $this->apellido = "";
