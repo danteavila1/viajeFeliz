@@ -87,9 +87,9 @@ class Empresa{
             if($base->Ejecutar($consultaEmpresa)){
                 if($row2 = $base->Registro()){
                     $this->setIdEmpresa($idEmpresa);
-                    $this->setENombre($row2['eNombre']);
-                    $this->setEDireccion($row2['eDireccion']);
-                    
+                    $this->setENombre($row2['enombre']);
+                    $this->setEDireccion($row2['edireccion']);
+
                     $viaje = new Viaje();
                     $viaje->Buscar($row2['idviaje']);
                     $this->setColViajes($viaje);
@@ -134,9 +134,9 @@ class Empresa{
 
                 while($row2=$base->Registro()){
 
-                    $IdEmp = $row2['idEmpresa'];
-                    $Enombre = $row2['eNombre'];
-                    $eDireccion = $row2['eDireccion'];
+                    $IdEmp = $row2['idempresa'];
+                    $Enombre = $row2['enombre'];
+                    $eDireccion = $row2['edireccion'];
 
                     $empresa=new Empresa();
                     $empresa->cargar($IdEmp,$Enombre,$eDireccion);
@@ -189,7 +189,7 @@ class Empresa{
      * @return boolean
      */
 
-     public function modificar(){
+    public function modificar(){
 
         $resp = false;
         $base = new BaseDatos();
@@ -254,7 +254,6 @@ class Empresa{
 
         return $cadena;
     }
-
     
     public function __toString(){
 
