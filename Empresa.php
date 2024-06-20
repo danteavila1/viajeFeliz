@@ -4,11 +4,9 @@ include_once "BaseDatos.php";
 
 class Empresa{
 
-    //Consultar si el nombre de los atributos deben ser igual al nombre de la tabla de la base de datos
     private $idEmpresa;
     private $eNombre;
     private $eDireccion;
-    private $colViajes;
     private $mensajeOperacion;
 
 
@@ -17,7 +15,6 @@ class Empresa{
         $this->idEmpresa = " ";
         $this->eNombre = " ";
         $this->eDireccion = " ";
-        $this->colViajes= [];
     }
 
     public function cargar($idEmpresa,$nombre,$direccion){
@@ -45,10 +42,6 @@ class Empresa{
         return $this->mensajeOperacion;
     }
 
-    public function getColViajes(){
-        return $this->colViajes;
-    }
-
     public function setIdEmpresa($IdEmpresa){
         $this->idEmpresa = $IdEmpresa;
     }
@@ -64,12 +57,6 @@ class Empresa{
     public function setMensajeOperacion($mensajeOperacion){
         $this->mensajeOperacion = $mensajeOperacion;
     }
-
-    public function setColViajes($colViajes){
-        $this->colViajes = $colViajes;
-    }
-
-
 
 
     /**Recupera los datos de una empresa por id Empresa
@@ -89,10 +76,6 @@ class Empresa{
                     $this->setIdEmpresa($idEmpresa);
                     $this->setENombre($row2['enombre']);
                     $this->setEDireccion($row2['edireccion']);
-
-                    $viaje = new Viaje();
-                    $viaje->Buscar($row2['idviaje']);
-                    $this->setColViajes($viaje);
 
                     $resp = true;
                 }
@@ -238,29 +221,12 @@ class Empresa{
     }
     
 
-    /**
-     * retorna una coleccion de viajes en una cadena
-     * @return string
-     */
-
-    public function mostrarViajes(){
-
-        $viajes=$this->getColViajes();
-        $cadena="";
-
-        for($i=0; $i<count($viajes);$i++){
-            $cadena.="VIAJE N°". $i+1 ."\n".$viajes[$i]."\n \n";
-        }
-
-        return $cadena;
-    }
     
     public function __toString(){
 
         return  "ID: ".$this->getIdEmpresa()."\n". 
                 "NOMBRE: ". $this->getENombre()."\n". 
-                "DIRECCION: ". $this->getEDireccion()."\n". 
-                "========== VIAJES ==========\n ". $this->mostrarViajes();
+                "DIRECCION: ". $this->getEDireccion()."\n";
     }
 
 }
