@@ -1,43 +1,6 @@
 <?php
 
 Class Pasajero extends Persona {
-<<<<<<< HEAD
-    private $nombre;
-    private $apellido;
-    private $numeroDocumento;
-    private $telefono;
-    private $objViaje;
-    private $mensajeOperacion;
-
-
-
-    public function __construct()
-    {
-		parent::__construct();
-        $this->numeroDocumento = "";
-        $this->nombre = "";
-        $this->apellido = "";
-        $this->telefono = "";
-    }
-
-    public function cargar ($documento, $nombre, $apellido, $telefono, $objViaje){
-        $this->setNumeroDocumento($documento);
-        $this->setNombre($nombre);
-        $this->setApellido($apellido);
-        $this->setTelefono($telefono);
-        $this->setObjViaje($objViaje);
-    }
-
-    public function setNombre ($nombre){
-        $this->nombre = $nombre;
-    }
-    public function getNombre(){
-        return $this->nombre;
-    }
-
-	public function getApellido() {
-		return $this->apellido;
-=======
 
 	private $idPasajero;
     private $numeroAsiento;
@@ -50,8 +13,7 @@ Class Pasajero extends Persona {
 		$this->idPasajero = "";
         $this->numeroAsiento = "";
         $this->numeroTicket = "";
-		$this->objViaje = [];
->>>>>>> origin/dante
+		$this->objViaje = null;
 	}
 
     public function cargar($nroDoc, $nombre, $apellido, $telefono, $direccion, $idPasajero = null, $numAsiento = null, $numTicket = null, $objetoViaje = null) {
@@ -108,26 +70,18 @@ Class Pasajero extends Persona {
         return $cadena;
     }
 
-    // public function darPorcentajeIncremento(){
-    //     $incremento = 10;
-    //     return $incremento;
-    // }
-
     public function Buscar($dni) { 
 		$base = new BaseDatos();  
 		$consulta = "Select * from pasajero where documento = '" . $dni . "'";
 		$resp = false; 
 		if ($base->Iniciar()) { 
 			if ($base->Ejecutar($consulta)) {
-				if ($row2 = $base->Registro()) {					 
-				    $this->setNroDoc($dni);
-					$this->setNombre($row2["nombre"]);
-					$this->setApellido($row2["apellido"]);
-					$this->setTelefono($row2["telefono"]);
-                    $idviaje = ($row2["idviaje"]);
-					$objViaje = new Viaje();
-					$objViaje->Buscar($idviaje);
-					$this->setObjViaje($objViaje);
+				if ($row2 = $base->Registro()) {		
+					parent :: Buscar($dni);			 
+					$this->setIdPasajero($row2['idpasajero']);
+					$this->setNumeroAsiento($row2['numasiento']);
+					$this->setNumeroTicket($row2['numTicket']);
+					$this->setObjViaje($row2['idviaje']);
                     $resp = true;
 				}				
 			
@@ -177,48 +131,56 @@ Class Pasajero extends Persona {
     public function insertar() {
 		$base = new BaseDatos();
 		$resp = false;
-        $consultaInsertar = "INSERT INTO pasajero(documento, nombre, apellido, telefono, idviaje) VALUES ('" . $this->getNroDoc() . "', '" . $this->getNombre() . "', '" . $this->getApellido() . "', '" . $this->getTelefono() . "', " . $this->getObjViaje()->getIdviaje() . ")";
-	
-		if ($base->Iniciar()) { 
-			if ($base->Ejecutar($consultaInsertar)) {
-			    $resp=  true;
-			}	
-            else {
-				$this->setMensajeOperacion($base->getError());	
-			}
-		} 
-        else {
-			$this->setMensajeOperacion($base->getError());	
-		}
-		return $resp;
-	}
+		$numDocPasajero = parent::getNroDoc();
+		if(parent::insertar()){
+			$consultaInsertar = "INSERT INTO pasajero (documento, nombre, apellido, telefono, idviaje)
+			VALUES ('{$numDocPasajero}', '{$this->getNumeroAsiento()}', '{$this->getNumeroTicket()}', '$this->getObjViaje()->getCodigo()}')";
 
-    public function modificar() {
-	    $resp = false; 
-	    $base = new BaseDatos();
-		$consultaModifica = "UPDATE pasajero SET nombre = '" . $this->getNombre() . "', apellido = '" . $this->getApellido() . "', telefono = '" . $this->getTelefono() . "', idviaje = " . $this->getObjViaje()->getIdviaje() . " WHERE pdocumento = " . $this->getNroDoc();
-		if($base->Iniciar()){
-			if ($base->Ejecutar($consultaModifica)) {
-			    $resp=  true;
-			}
-            else {
+			if($base->Iniciar()){
+				if ($idPasajero = $base->devuelveIDInsercion($consultaInsertar)){
+					$this->setIdPasajero($idPasajero);
+					$resp = true;
+				} else {
+					$this->setMensajeOperacion($base->getError());
+				}
+			} else {
 				$this->setMensajeOperacion($base->getError());
 			}
 		}
-        else {
-			$this->setMensajeOperacion($base->getError());
-		}
-
 		return $resp;
 	}
 
+	public function modificar(){
+	    $resp =false; 
+	    $base=new BaseDatos();
+	    if(parent::modificar()){
+	    	$consultaModifica="UPDATE pasajero SET numasiento=".$this->getNumeroAsiento().", numticket = ". $this->getNumeroTicket(). ", idviaje=".$this->getObjViaje()." WHERE pdocumento=". $this->getNrodoc(); 
+	        if($base->Iniciar()){
+	            if($base->Ejecutar($consultaModifica)){
+	                $resp=  true;
+	            }else{
+	                $this->setmensajeoperacion($base->getError());
+	                
+	            }
+	        }else{
+	            $this->setmensajeoperacion($base->getError());
+	            
+	        }
+	    }
+		
+		return $resp;
+	}
+
+	// primero hay que eliminar pasajero y luego recien persona. Porque hay una referencia. Si elimino primero la persona, el pasajero me va a quedar ahciendo referencia a un id que ya no existe.
     public function eliminar() {
 		$base = new BaseDatos();
 		$resp = false;
 		if ($base->Iniciar()) {
 				$consultaBorra = "DELETE FROM pasajero WHERE documento = " . $this->getNroDoc();
 				if ($base->Ejecutar($consultaBorra)) {
-				    $resp=  true;
+					if(parent::eliminar()){
+						$resp=  true;
+					}
 				}
                 else {
 					$this->setMensajeOperacion($base->getError());	

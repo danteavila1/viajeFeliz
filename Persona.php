@@ -1,14 +1,5 @@
 <?php
 
-/*CREATE TABLE persona (
-    nrodoc varchar(15),
-    pnombre varchar(150), 
-    papellido varchar(150), 
-	ptelefono varchar(150), 
-	direccion varchar(150),
-    PRIMARY KEY (nrodoc)	
-    )ENGINE=InnoDB DEFAULT CHARSET=utf8; */
-
 Class Persona {
     private $nroDoc;
     private $nombre;
