@@ -135,7 +135,6 @@ Class Pasajero extends Persona {
 		if(parent::insertar()){
 			$consultaInsertar = "INSERT INTO pasajero (documento, nombre, apellido, telefono, idviaje)
 			VALUES ('{$numDocPasajero}', '{$this->getNumeroAsiento()}', '{$this->getNumeroTicket()}', '$this->getObjViaje()->getCodigo()}')";
-
 			if($base->Iniciar()){
 				if ($idPasajero = $base->devuelveIDInsercion($consultaInsertar)){
 					$this->setIdPasajero($idPasajero);

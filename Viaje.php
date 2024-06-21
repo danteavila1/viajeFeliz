@@ -10,16 +10,17 @@ class Viaje {
     private $costo;
     private $sumaCostos;
     private $objEmpresa;
+    private $mensajeopearcion;
 
-    public function __construct($vidViaje, $vdestino, $vcantidadMaxPasajeros, $vcolPasajeros, $vobjResponsable, $vcosto, $vsumaCostos, $vobjEmpresa){
-        $this->idViaje = $vidViaje;
-        $this->destino = $vdestino;
-        $this->cantidadMaxPasajeros = $vcantidadMaxPasajeros;
-        $this->colPasajeros = $vcolPasajeros;
-        $this->objResponsable = $vobjResponsable;
-        $this->costo = $vcosto;
-        $this->sumaCostos = $vsumaCostos;
-        $this->objEmpresa = $vobjEmpresa;
+    public function __construct(){
+        $this->idViaje = "";
+        $this->destino = "";
+        $this->cantidadMaxPasajeros = "";
+        $this->colPasajeros = [];
+        $this->objResponsable = null;
+        $this->costo = "";
+        $this->sumaCostos = 0;
+        $this->objEmpresa = null;
     }
 
     public function cargar($idViaje, $destino, $cantidadMaxPasajeros,$colPasajeros, $objEmpresa, $objResponsable, $costo){
@@ -81,6 +82,14 @@ class Viaje {
 		$this->costo = $costo;
 	}
 
+    public function getSumaCostos(){
+        return $this->sumaCostos;
+    }
+
+    public function setSumaCostos($sumaCostos){
+        $this->sumaCostos = $sumaCostos;
+    }
+
     public function getObjEmpresa() {
 		return $this->objEmpresa;
 	}
@@ -88,6 +97,14 @@ class Viaje {
 	public function setObjEmpresa($value) {
 		$this->objEmpresa = $value;
 	}
+
+    public function getmensajeoperacion(){
+        return $this->mensajeoperacion;
+    }
+
+    public function setmensajeoperacion($mensajeoperacion){
+        $this->mensajeoperacion = $mensajeoperacion;
+    }
 
     public function mostrarCadena($arreglo){
         $cadena = '';
@@ -192,11 +209,11 @@ class Viaje {
 			    $resp = true;
 			} 
             else {
-				$this->setMensajeOperacion($base->getError());					
+				$this->setmensajeoperacion($base->getError());					
 			}
 		} 
         else {
-			$this->setMensajeOperacion($base->getError());			
+			$this->setmensajeoperacion($base->getError());			
 		}
 
 		return $resp;
@@ -235,11 +252,11 @@ class Viaje {
 				    $resp=  true;
 				} 
                 else{
-					$this->setMensajeOperacion($base->getError());					
+					$this->setmensajeoperacion($base->getError());					
 				}
 		} 
         else {
-			$this->setMensajeOperacion($base->getError());			
+			$this->setmensajeoperacion($base->getError());			
 		}
 		
         return $resp; 
