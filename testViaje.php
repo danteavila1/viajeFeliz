@@ -1,5 +1,7 @@
 <?php
 
+<<<<<<< HEAD
+=======
 include_once 'Viaje.php';
 include_once 'ResponsableV.php';
 include_once 'Pasajero.php';
@@ -179,5 +181,6 @@ function agregarResponsable($objViaje){
         }
     return $exito;
 }
+>>>>>>> 49dee6549dbf94706dadf4ff3bbc4618f393d3ea
 
 

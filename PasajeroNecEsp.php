@@ -7,7 +7,7 @@ class PasajeroNecEsp extends Pasajero {
     private $comidaEspecial;
 
     public function __construct($vnombre, $vapellido, $vnumeroDocumento, $vtelefono, $vnumeroAsiento, $vnumeroTicket, $vsillaDeRuedas, $vasistencia, $vcomidaEspecial){
-        parent::__construct($vnombre, $vapellido, $vnumeroDocumento, $vtelefono, $vnumeroAsiento, $vnumeroTicket);
+        parent::__construct();
         $this->sillaDeRuedas = $vsillaDeRuedas;
         $this->asistencia = $vasistencia;
         $this->comidaEspecial = $vcomidaEspecial;

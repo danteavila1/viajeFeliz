@@ -8,14 +8,18 @@ class Viaje {
     private $colPasajeros;
     private $objResponsable;
     private $costo;
+    private $sumaCostos;
     private $objEmpresa;
-    private $mensajeOperacion;
 
-    public function __construct(){
-        $this->idViaje = 0;
-        $this->destino = "";
-        $this->cantidadMaxPasajeros = 0;
-        $this->costo = 0;
+    public function __construct($vidViaje, $vdestino, $vcantidadMaxPasajeros, $vcolPasajeros, $vobjResponsable, $vcosto, $vsumaCostos, $vobjEmpresa){
+        $this->idViaje = $vidViaje;
+        $this->destino = $vdestino;
+        $this->cantidadMaxPasajeros = $vcantidadMaxPasajeros;
+        $this->colPasajeros = $vcolPasajeros;
+        $this->objResponsable = $vobjResponsable;
+        $this->costo = $vcosto;
+        $this->sumaCostos = $vsumaCostos;
+        $this->objEmpresa = $vobjEmpresa;
     }
 
     public function cargar($idViaje, $destino, $cantidadMaxPasajeros,$colPasajeros, $objEmpresa, $objResponsable, $costo){
@@ -77,25 +81,13 @@ class Viaje {
 		$this->costo = $costo;
 	}
 
-	public function getObjEmpresa() {
+    public function getObjEmpresa() {
 		return $this->objEmpresa;
 	}
 
-	public function setObjEmpresa($objEmpresa) {
-		$this->objEmpresa = $objEmpresa;
+	public function setObjEmpresa($value) {
+		$this->objEmpresa = $value;
 	}
-
-    public function getMensajeOperacion(){
-        return $this->mensajeOperacion;
-    }
-
-    public function setMensajeOperacion($mensajeOperacion){
-        $this->mensajeOperacion = $mensajeOperacion;
-    }
-
-    
-
-
 
     public function mostrarCadena($arreglo){
         $cadena = '';
@@ -109,7 +101,7 @@ class Viaje {
         return $this->getIdViaje() ."\n". $this->getDestino() ."\n".
             $this->getCantidadMaxPasajeros() ."\n". 
             $this->mostrarCadena($this->getColPasajeros()) ."\n".
-            $this->getObjResponsable();
+            $this->getObjResponsable()."\n".$this->getObjEmpresa()."\n";
     }
 
     public function Buscar($idViaje){
@@ -302,6 +294,5 @@ class Viaje {
         }
         return $hayPasajes;
     }
-    
 
 }
