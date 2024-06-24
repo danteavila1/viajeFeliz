@@ -1,49 +1,49 @@
 CREATE DATABASE bdviajes; 
 USE bdviajes;
 CREATE TABLE persona(
-    pnumdoc bigint PRIMARY KEY,
-    pnombre varchar(150),
-    papellido varchar(150),
-    ptelefono bigint
+    numdoc bigint PRIMARY KEY,
+    nombre varchar(150),
+    apellido varchar(150),
+    telefono bigint
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE empresa(
     idempresa bigint AUTO_INCREMENT,
-    enombre varchar(150),
-    edireccion varchar(150),
+    nombre varchar(150),
+    direccion varchar(150),
     PRIMARY KEY (idempresa)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE responsable (
-    rnumeroempleado bigint AUTO_INCREMENT,
-    rnumerolicencia bigint,
-    rnumdoc bigint,
+    numeroempleado bigint AUTO_INCREMENT,
+    numerolicencia bigint,
+    numdoc bigint,
     PRIMARY KEY (rnumeroempleado),
     FOREIGN KEY (rnumdoc) REFERENCES persona(pnumdoc)
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 	
 CREATE TABLE viaje (
     idviaje bigint AUTO_INCREMENT, 
-	vdestino varchar(150),
-    vmaxpasajeros bigint,
+	destino varchar(150),
+    maxpasajeros bigint,
 	idempresa bigint,
-    rnumeroempleado bigint,
-    vimporte float, 
+    numeroempleado bigint,
+    importe float, 
     PRIMARY KEY (idviaje),
     FOREIGN KEY (idempresa) REFERENCES empresa (idempresa) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (rnumeroempleado) REFERENCES responsable (rnumeroempleado)
+	FOREIGN KEY (numeroempleado) REFERENCES responsable (numeroempleado)
     ON UPDATE CASCADE
     ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
 	
     CREATE TABLE pasajero ( 
     idpasajero bigint AUTO_INCREMENT, 
-    pdocumento bigint,
+    documento bigint,
     numasiento bigint,
     numticket bigint,
     idviaje bigint, 
     PRIMARY KEY (idpasajero), 
-    FOREIGN KEY (pdocumento) REFERENCES persona (pnumdoc)  ON UPDATE CASCADE
+    FOREIGN KEY (documento) REFERENCES persona (numdoc)  ON UPDATE CASCADE
     ON DELETE CASCADE,
     FOREIGN KEY (idviaje) REFERENCES viaje (idviaje)  ON UPDATE CASCADE
     ON DELETE CASCADE
