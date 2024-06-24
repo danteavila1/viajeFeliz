@@ -1,245 +1,368 @@
 <?php
-
-include_once 'Viaje.php';
-include_once 'ResponsableV.php';
+include_once 'Persona.php';
 include_once 'Pasajero.php';
+include_once 'ResponsableV.php';
 include_once 'Empresa.php';
+include_once 'Viaje.php';
 include_once 'BaseDatos.php';
 
+while (true) {
+    echo "\nMenú:\n";
+    echo "1. Cargar informacion de Viaje\n";
+    echo "2. Modificar informacion de Viaje\n";
+    echo "3. Eliminar informacion de Viaje\n";
+    echo "4. Ver datos del Viaje\n";
+    echo "5. Cargar informacion de Empresa\n";
+    echo "6. Modificar informacion Empresa\n";
+    echo "7. Eliminar informacion de Empresa\n";
+    echo "8. Agregar Pasajero\n";
+    echo "9. Modificar Pasajero\n";
+    echo "10. Eliminar Pasajero\n";
+    echo "11. Salir\n";
+    $opcion = readline("Ingrese la opción deseada: ");
 
-echo "<<<<<<<<<<<<< Bienvenido >>>>>>>>>>>>> 
-\n [Ingrese una opcion] \n ";
-
-do {
-    echo "1- Ver informacion del viaje \n";
-    echo "2- Vender pasaje \n";
-    echo "3- Ingresar viaje \n";
-    echo "4- Ver viajes de la empresa \n";
-    echo "5- Modificar un viaje o pasajero \n";
-    echo "6- Eliminar un viaje o pasajero \n";
-    echo "7- Ingresar datos \n";
-    echo "8- Salir";
-    $valor=trim(fgets(STDIN));
-
-    // VER INFORMACION DEL VIAJE
-
-    switch($valor){
-        case 1: 
-            verInformacionViaje();
+    switch ($opcion) {
+        case '1':
+            cargarInformacionViaje();
             break;
-        case 2:
-            venderPasaje();
+        case '2':
+            modificarInformacionViaje();
             break;
-        case 3:
-            ingresarViaje();
+        case '3':
+            eliminarInformacionViaje();
             break;
-        case 4:
+        case '4':
+            verDatosViaje();
+            break;
+        case '5':
+            cargarInformacionEmpresa();
+            break;
+        case '6':
+            modificarInformacionEmpresa();
+            break;
+        case '7':
+            eliminarInformacionEmpresa();
+            break;
+        case '8':
+            agregarPasajero();
+            break;
+        case '9':
+            modificarPasajero();
+            break;
+        case '10':
+            eliminarPasajero();
+            break;
+        case '11':
+            echo "Saliendo del programa...\n";
+            exit;
+        default:
+            echo "Opción inválida. Por favor, seleccione una opción válida.\n";
+            break;
+    }
+}
 
+function cargarInformacionViaje() {
+    $empresa = new Empresa();
+    echo "Ingrese el Id de la empresa:\n";
+    $id= trim(fgets(STDIN));
+    if (!$empresa->Buscar($id)) {
+        echo "No se encontró una empresa con el ID proporcionado.\n";
+        return;
+    } else {
+        echo "La empresa es ".$empresa->getNombre()."\n";
     }
 
-    function verInformacionViaje(){
-        $objViaje = new Viaje();
-        echo "Ingrese el ID del viaje";
-        $idViaje = trim(fgets(STDIN));
-        $objViaje->buscar($idViaje);
-        echo $objViaje;
+    $nroDocResponsableV = readline("Ingrese el numero de documento empleado del responsable del nuevo viaje: ");
+    $nombreResponsableV = readline("Ingrese el Nombre del responsable del nuevo viaje: ");
+    $apellidoResponsableV  = readline("Ingrese el apellido del responsable del nuevo viaje: ");
+    $telefonoResponsableV = readline("Ingrese el telefono del responsable del nuevo viaje: ");
+    $numEmpleado = readline("Ingrese el numero de empleado del responsable del nuevo viaje: ");
+    $numLicencia = readline("Ingrese el numero de licencia del responsable del nuevo viaje: ");
+    $nuevoResponsable = new ResponsableV();
+    $nuevoResponsable->cargar($nroDocResponsableV, $nombreResponsableV, $apellidoResponsableV, $telefonoResponsableV, $numEmpleado, $numLicencia);
+    if($nuevoResponsable->Buscar($numEmpleado)){
+        echo "Esta persona ya ha sido cargada\n";
+        return;
+    } else {
+        $nuevoResponsable->insertar();
     }
 
-    function venderPasaje(){
-        echo "Ingrese el destino: \n";
-        $destino = trim(fgets(STDIN));
-        $objViaje = new Viaje();
-        $colViajes = $objViaje->listar("destino = " . " '$destino'"); 
-        if ($colViajes != null){
-            $i = 1;
-            foreach ($colViajes as $viaje){
-                echo "|N° ". $i . "|[" . $viaje . "]\n";
-                $i = $i + 1;
+    $codigo = readline("Ingrese el codigo del nuevo viaje: ");
+    $destino = readline("Ingrese el destino del nuevo viaje: ");
+    $maxPasajeros = readline("Ingrese la cantidad maxima de pasajeros del nuevo viaje: ");
+    $costoDelViaje = readline("Ingrese el costo del viaje: ");
+
+    $viaje = new Viaje();
+    $viaje->cargar($codigo, $destino, $maxPasajeros, $nuevoResponsable, $costoDelViaje, $empresa);
+    $viaje->insertar();
+}
+
+function modificarInformacionViaje() {
+    while (true) {
+        echo "\nDesea modificar:\n";
+        echo "1. Modificar destino del viaje\n";
+        echo "2. Modificar maximo de pasajeros del viaje\n";
+        echo "3. Modificar responsable del viaje\n";
+        echo "4. Modificar costos del viaje\n";
+        echo "5. Modificar Empresa\n";
+        echo "6. Volver al menu anterior\n";
+        $opcion = readline("Ingrese la opción deseada: ");
+        $viaje = new Viaje();
+        echo "Ingrese el id del viaje:\n";
+        $id = trim(fgets(STDIN));
+        if(!$viaje->Buscar($id)){
+            echo "El viaje no ha podido ser encontrado\n";
+            return;
+        }
+
+        switch ($opcion) {
+            case '1':
+                echo "Este es el Destino actual del viaje: " . $viaje->getDestino() . "\n";
+                $viaje->setDestino(readline("Ingrese el destino del viaje: "));
+                $viaje->modificar();
+                break;
+            case '2':
+                echo "Esta es la cantidad maxima actual del viaje: " . $viaje->getMaxPasajeros() . "\n";
+                $viaje->setMaxPasajeros(readline("Ingrese la cantidad maxima de pasajeros del viaje: "));
+                $viaje->modificar();
+                break;
+            case '3':
+                echo "Qué información desea modificar del responsable del viaje?\n";
+                echo "1- El número de licencia\n";
+                echo "2- El nombre\n";
+                echo "3- El apellido\n";
+                echo "4- Todos los datos\n";
+                $opcion = trim(fgets(STDIN));
+                modificarResponsableViaje($viaje, $opcion);
+                break;
+            case '4':
+                echo "Este es el Costo actual del viaje: " . $viaje->getCosto() . "\n";
+                $viaje->setCosto(readline("Ingrese el nuevo costo del viaje: "));
+                $viaje->modificar();
+                break;
+            case '5':
+                echo "Qué información desea modificar de la empresa?\n";
+                echo "1- El nombre\n";
+                echo "2- La dirección\n";
+                echo "3- Todos los datos\n";
+                $eleccion = trim(fgets(STDIN));
+                modificarEmpresa($viaje, $eleccion);
+                break;
+            case '6':
+                return;
+            default:
+                echo "Opción inválida. Por favor, seleccione una opción válida.\n";
+                break;
+        }
+    }
+}
+
+function eliminarInformacionViaje() {
+    echo "Ingrese el Id del viaje que desea eliminar:\n";
+    $id = trim(fgets(STDIN));
+    $viaje = new Viaje();
+    if($viaje->Buscar($id)) {
+        $viaje->eliminar();
+        echo "El viaje ha sido eliminado correctamente.\n";
+    } else {
+        echo "No se encontró el viaje que se buscaba.\n";
+    }
+}
+
+function verDatosViaje() {
+    echo "Ingrese el Id del viaje:\n";
+    $id = trim(fgets(STDIN));
+    $viaje = new Viaje();
+    if($viaje->Buscar($id)) {
+        echo $viaje;
+    } else {
+        echo "No se encontró el viaje que se buscaba.\n";
+    }
+}
+
+function cargarInformacionEmpresa() {
+    $idEmpresa = readline("Ingrese el id de la empresa: ");
+    $nombreEmpresa = readline("Ingrese el nombre de la empresa: ");
+    $direccionEmpresa = readline("Ingrese la dirección de la empresa: ");
+    $empresa = new Empresa();
+    $empresa->cargar(null, $nombreEmpresa, $direccionEmpresa);
+    $empresa->insertar();
+}
+
+function modificarInformacionEmpresa() {
+    echo "Ingrese el id de la empresa que desea modificar:\n";
+    $id = trim(fgets(STDIN));
+    $empresa = new Empresa();
+    if(!$empresa->Buscar($id)){
+        echo "La empresa no ha podido ser encontrada\n";
+        return;
+    }
+
+    echo "Qué información desea modificar de la empresa?\n";
+    echo "1- El nombre\n";
+    echo "2- La dirección\n";
+    echo "3- Todos los datos\n";
+    $eleccion = trim(fgets(STDIN));
+    modificarEmpresa($empresa, $eleccion);
+}
+
+function eliminarInformacionEmpresa() {
+    echo "Ingrese el Id de la empresa que desea eliminar:\n";
+    $id = trim(fgets(STDIN));
+    $empresa = new Empresa();
+    if($empresa->Buscar($id)) {
+        $empresa->eliminar();
+        echo "La empresa ha sido eliminada correctamente.\n";
+    } else {
+        echo "No se encontró la empresa que se buscaba.\n";
+    }
+}
+
+function agregarPasajero() {
+    $viaje = new Viaje();
+    echo "Ingrese el id del viaje:\n";
+    $id = trim(fgets(STDIN));
+
+    if ($viaje->Buscar($id)) {
+        echo $viaje;
+
+        if (!$viaje->hayPasajesDisponibles()) {
+            echo "No hay pasajes disponibles\n";
+            return;
+        } else {
+            $numDocPasajero = readline("Ingrese el numero de documento del pasajero: ");
+            $nombrePasajero = readline("Ingrese el Nombre del pasajero: ");
+            $apellidoPasajero = readline("Ingrese el apellido del pasajero: ");
+            $telefonoPasajero = readline("Ingrese el telefono del pasajero: ");
+            $numAsiento = readline("Ingrese el numero de asiento: ");
+            $numTicket = readline("Ingrese el numero de ticket: ");
+
+            if (empty($numDocPasajero) || empty($nombrePasajero) || empty($apellidoPasajero) || empty($telefonoPasajero) || empty($numAsiento) || empty($numTicket)) {
+                echo "Todos los campos son obligatorios.\n";
+                return;
             }
-            echo "ingrese el id de viaje que desea comprar:  \n";
-            $id=trim(fgets(STDIN));  
-            if($objViaje->Buscar($id)){
-                $objPasajero=new Pasajero();
-                $colObjPasajero=$objPasajero->listar();
-                if (count($colObjPasajero)<$objViaje->getcantidadMaxPasajeros()) {
-                    $asientosDisponibles=$objViaje->getcantidadMaxPasajeros()-count($colObjPasajero);
-                    echo "los asientos disponibles son:".$asientosDisponibles."\n";
-                    echo "Ingrese el Nombre: \n";
-                    $nombre=trim(fgets(STDIN));
-                    echo "Ingrese el apellido: \n";
-                    $apellido=trim(fgets(STDIN));
-                    echo "ingrese el DNI del pasajero: \n";
-                    $documento=trim(fgets(STDIN));
-                    echo "ingrese el numero de telefono: \n";
-                    $telefono=trim(fgets(STDIN));
 
-                    $objPasajero=new Pasajero();
-                    $objPasajero->cargar($documento,$nombre,$apellido,$telefono,$objViaje);
-                    $objPasajero->insertar();
-                    echo "\n ***Se vendio el pasaje con exito*** :v \n";
-                }
+            $nuevoPasajero = new Pasajero();
+            $nuevoPasajero->cargar($numDocPasajero, $nombrePasajero, $apellidoPasajero, $telefonoPasajero, null, $numAsiento, $numTicket, $viaje);
+
+            if ($nuevoPasajero->Buscar($numDocPasajero)) {
+                echo "Este pasajero ya ha sido cargado\n";
+                return;
             } else {
-                echo "error al ingresar el codigo \n";
+                if ($nuevoPasajero->insertar()) {
+                    echo "Pasajero agregado exitosamente.\n";
+                } else {
+                    echo "Error al insertar el pasajero: " . $nuevoPasajero->getmensajeoperacion() . "\n";
+                }
             }
-        } else {
-            echo "No hay lugares disponibles";
         }
-    }
-
-    function ingresarViaje(){
-        mostrarEmpresa();
-        echo "Ingrese el id de la empresa \n";
-        $idEmpresa = trim(fgets(STDIN));
-
-        if($objEmpresa->Buscar($idEmpresa)){
-            $objViaje = new Viaje();
-            echo "Ingrese el destino: \n";
-            $destino = trim(fgets(STDIN));
-            echo "Ingrese la cantidad maxima de pasajeros: \n";
-            $cantMax = trim(fgets(STDIN));
-            $objViaje->cargar(10, $destino, $cantMax,[], $objEmpresa, null, 7);
-            mostrarResponsables();
-            if (agregarResponsable($objViaje)){
-                $objViaje->insertar();
-                echo "El viaje se ha cargado con exito \n";
-            }
-        } else {
-            echo "No se registra el ID de empresa: " . $idEmpresa;
-        }
-    }
-
-
-
-    // if ($valor == 1){
-    //     $objViaje = new Viaje();
-    //     echo "Ingrese el ID del viaje";
-    //     $idViaje = trim(fgets(STDIN));
-    //     $objViaje->buscar($idViaje);
-    //     echo $objViaje;
-    // }
-
-    // VENDER PASAJE
-
-    // if($valor == 2){
-    //     echo "Ingrese el destino: \n";
-    //     $destino = trim(fgets(STDIN));
-    //     $objViaje = new Viaje();
-    //     $colViajes = $objViaje->listar("destino = " . " '$destino'"); 
-    //     if ($colViajes != null){
-    //         $i = 1;
-    //         foreach ($colViajes as $viaje){
-    //             echo "|N° ". $i . "|[" . $viaje . "]\n";
-    //             $i = $i + 1;
-    //         }
-    //         echo "ingrese el id de viaje que desea comprar:  \n";
-    //         $id=trim(fgets(STDIN));  
-    //         if($objViaje->Buscar($id)){
-    //             $objPasajero=new Pasajero();
-    //             $colObjPasajero=$objPasajero->listar();
-    //             if (count($colObjPasajero)<$objViaje->getcantidadMaxPasajeros()) {
-    //                 $asientosDisponibles=$objViaje->getcantidadMaxPasajeros()-count($colObjPasajero);
-    //                 echo "los asientos disponibles son:".$asientosDisponibles."\n";
-    //                 echo "Ingrese el Nombre: \n";
-    //                 $nombre=trim(fgets(STDIN));
-    //                 echo "Ingrese el apellido: \n";
-    //                 $apellido=trim(fgets(STDIN));
-    //                 echo "ingrese el DNI del pasajero: \n";
-    //                 $documento=trim(fgets(STDIN));
-    //                 echo "ingrese el numero de telefono: \n";
-    //                 $telefono=trim(fgets(STDIN));
-
-    //                 $objPasajero=new Pasajero();
-    //                 $objPasajero->cargar($documento,$nombre,$apellido,$telefono,$objViaje);
-    //                 $objPasajero->insertar();
-    //                 echo "\n ***Se vendio el pasaje con exito*** :v \n";
-    //             }
-    //         } else {
-    //             echo "error al ingresar el codigo \n";
-    //         }
-    //     } else {
-    //         echo "No hay lugares disponibles";
-    //     }
-    // }
-
-    // INGRESAR VIAJE
-
-    // if ($valor == 3){
-    //     mostrarEmpresa();
-    //     echo "Ingrese el id de la empresa \n";
-    //     $idEmpresa = trim(fgets(STDIN));
-
-    //     if($objEmpresa->Buscar($idEmpresa)){
-    //         $objViaje = new Viaje();
-    //         echo "Ingrese el destino: \n";
-    //         $destino = trim(fgets(STDIN));
-    //         echo "Ingrese la cantidad maxima de pasajeros: \n";
-    //         $cantMax = trim(fgets(STDIN));
-    //         $objViaje->cargar(10, $destino, $cantMax,[], $objEmpresa, null, 7);
-    //         mostrarResponsables();
-    //         if (agregarResponsable($objViaje)){
-    //             $objViaje->insertar();
-    //             echo "El viaje se ha cargado con exito \n";
-    //         }
-    //     } else {
-    //         echo "No se registra el ID de empresa: " . $idEmpresa;
-    //     }
-    // }
-
-}while($valor==1 || $valor==2 ||$valor==3 ||$valor==4||$valor==5||$valor==6 ||$valor==7);
-
-function mostrarEmpresa(){
-    $objEmpresa = new Empresa();
-    $colEmpresa = $objEmpresa->listar();
-    $i = 1;
-
-    foreach ($colEmpresa as $empresa){
-        $i = 1;
-        echo "|N°".$i."|[".$empresa."]\n";
-        $i+=1;
+    } else {
+        echo "No se encontró el viaje que se buscaba.\n";
     }
 }
 
-function mostrarResponsables(){
-    $objResponsable=new ResponsableV();
-    $colResponsable=$objResponsable->listar();
-    $i=1;
-    foreach ($colResponsable as $responsable) {
-        echo "|N°".$i."|[".$responsable."]\n";
-        $i+=1;
+
+function modificarPasajero() {
+    echo "Ingrese el documento del pasajero que desea modificar:\n";
+    $id = trim(fgets(STDIN));
+    $pasajero = new Pasajero();
+    if (!$pasajero->Buscar($id)) {
+        echo "El pasajero no ha podido ser encontrado\n";
+        return;
+    }
+
+    echo "Qué información desea modificar del pasajero?\n";
+    echo "1- El nombre\n";
+    echo "2- El apellido\n";
+    echo "3- El telefono\n";
+    echo "4- Todos los datos\n";
+    $eleccion = trim(fgets(STDIN));
+    switch ($eleccion) {
+        case '1':
+            echo "Este es el nombre actual del pasajero: " . $pasajero->getNombre() . "\n";
+            $pasajero->setNombre(readline("Ingrese el nuevo nombre del pasajero: "));
+            break;
+        case '2':
+            echo "Este es el apellido actual del pasajero: " . $pasajero->getApellido() . "\n";
+            $pasajero->setApellido(readline("Ingrese el nuevo apellido del pasajero: "));
+            break;
+        case '3':
+            echo "Este es el telefono actual del pasajero: " . $pasajero->getTelefono() . "\n";
+            $pasajero->setTelefono(readline("Ingrese el nuevo telefono del pasajero: "));
+            break;
+        case '4':
+            $pasajero->setNombre(readline("Ingrese el nuevo nombre del pasajero: "));
+            $pasajero->setApellido(readline("Ingrese el nuevo apellido del pasajero: "));
+            $pasajero->setTelefono(readline("Ingrese el nuevo telefono del pasajero: "));
+            break;
+        default:
+            echo "Opción inválida. Por favor, seleccione una opción válida.\n";
+            return;
+    }
+    if ($pasajero->modificar()) {
+        echo "Pasajero modificado exitosamente.\n";
+    } else {
+        echo "Error al modificar el pasajero: " . $pasajero->getmensajeoperacion() . "\n";
     }
 }
 
-function agregarResponsable($objViaje){
-    $exito=false;
-    $objResponsable=new ResponsableV();
-    echo "¿el responsable esta cargado en la lista? (s para si/n para no) \n";
-    $resResponsable=trim(fgets(STDIN));
-    if ($resResponsable=="s") {
-        echo "ingrese el Número de empleado del responsable \n";
-        $idEmpleado=trim(fgets(STDIN));
-        if ($objResponsable->Buscar($idEmpleado)) {
-            $exito=true;
-        }
-        else {
-            echo "no se encontro al empleado con el id: ".$idEmpleado;
-        }
-                
+function eliminarPasajero() {
+    echo "Ingrese el documento del pasajero que desea eliminar:\n";
+    $id = trim(fgets(STDIN));
+    $pasajero = new Pasajero();
+    if ($pasajero->Buscar($id)) {
+        $pasajero->eliminar();
+        echo "El pasajero ha sido eliminado correctamente.\n";
+    } else {
+        echo "No se encontró el pasajero que se buscaba.\n";
     }
-    else{
-        echo "ingrese Nombre del responsable del viaje \n";
-        $nombre=trim(fgets(STDIN));
-        echo "ingrese el apellido del responsable \n";
-        $apellido=trim(fgets(STDIN));
-        echo "ingrese el numero de licencia del responsable \n";
-        $numLicencia=trim(fgets(STDIN));
-        echo "ingrese el numero de empleado del responsable \n";
-        $numEmpleado=trim(fgets(STDIN));
-        $objResponsable->cargar($numEmpleado,$numLicencia,$nombre,$apellido);
-        $objResponsable->insertar();
-        $objViaje->setObjResponsable($objResponsable);
-        $exito=true;
-        }
-    return $exito;
 }
 
+function modificarResponsableViaje($viaje, $opcion) {
+    $responsable = $viaje->getResponsable();
+    switch ($opcion) {
+        case '1':
+            echo "Este es el numero de licencia actual del responsable del viaje: " . $responsable->getNumLicencia() . "\n";
+            $responsable->setNumLicencia(readline("Ingrese el nuevo numero de licencia del responsable del viaje: "));
+            break;
+        case '2':
+            echo "Este es el nombre actual del responsable del viaje: " . $responsable->getNombre() . "\n";
+            $responsable->setNombre(readline("Ingrese el nuevo nombre del responsable del viaje: "));
+            break;
+        case '3':
+            echo "Este es el apellido actual del responsable del viaje: " . $responsable->getApellido() . "\n";
+            $responsable->setApellido(readline("Ingrese el nuevo apellido del responsable del viaje: "));
+            break;
+        case '4':
+            $responsable->setNumLicencia(readline("Ingrese el nuevo numero de licencia del responsable del viaje: "));
+            $responsable->setNombre(readline("Ingrese el nuevo nombre del responsable del viaje: "));
+            $responsable->setApellido(readline("Ingrese el nuevo apellido del responsable del viaje: "));
+            break;
+        default:
+            echo "Opción inválida. Por favor, seleccione una opción válida.\n";
+            return;
+    }
+    $responsable->modificar();
+}
 
+function modificarEmpresa($empresa, $eleccion) {
+    switch ($eleccion) {
+        case '1':
+            echo "Este es el nombre actual de la empresa: " . $empresa->getNombre() . "\n";
+            $empresa->setNombre(readline("Ingrese el nuevo nombre de la empresa: "));
+            break;
+        case '2':
+            echo "Esta es la dirección actual de la empresa: " . $empresa->getDireccion() . "\n";
+            $empresa->setDireccion(readline("Ingrese la nueva dirección de la empresa: "));
+            break;
+        case '3':
+            $empresa->setNombre(readline("Ingrese el nuevo nombre de la empresa: "));
+            $empresa->setDireccion(readline("Ingrese la nueva dirección de la empresa: "));
+            break;
+        default:
+            echo "Opción inválida. Por favor, seleccione una opción válida.\n";
+            return;
+    }
+    $empresa->modificar();
+}
+?>
