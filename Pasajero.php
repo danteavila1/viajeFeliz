@@ -81,7 +81,12 @@ Class Pasajero extends Persona {
 					$this->setIdPasajero($row2['idpasajero']);
 					$this->setNumeroAsiento($row2['numasiento']);
 					$this->setNumeroTicket($row2['numTicket']);
+
 					$this->setObjViaje($row2['idviaje']);
+					$objViaje = new Viaje();
+					$objViaje->Buscar($row2['idviaje']);
+					$this->setObjViaje($objViaje);
+
                     $resp = true;
 				}				
 			
@@ -111,10 +116,9 @@ Class Pasajero extends Persona {
 				$colPasajeros = [];
 
 				while($row2 = $base->Registro()) {
-					$documento = $row2['documento'];
-					$objPasajero = new Pasajero();
-                    $objPasajero->Buscar($documento);
-					array_push($colPasajeros, $objPasajero);
+					$obj=new Pasajero();
+					$obj->Buscar($row2['documento']);
+					array_push($colPasajeros,$obj);
 				}
 		 	}	
             else {
@@ -128,17 +132,60 @@ Class Pasajero extends Persona {
         return $colPasajeros;
 	}
 
+
+	//revisar
     public function insertar() {
 		$base = new BaseDatos();
 		$resp = false;
-		$numDocPasajero = parent::getNroDoc();
-		if(parent::insertar()){
-			$consultaInsertar = "INSERT INTO pasajero (documento, nombre, apellido, telefono, idviaje)
-			VALUES ('{$numDocPasajero}', '{$this->getNumeroAsiento()}', '{$this->getNumeroTicket()}', '$this->getObjViaje()->getCodigo()}')";
+	
+		if (parent::insertar()) {
+			$objViaje = $this->getObjViaje();
+			
+			if ($objViaje !== null) {
+				// Asume que idPasajero es auto increment y no lo incluimos en la consulta.
+				$nroDoc = $this->getNrodoc();
+				$numAsiento = $this->getNumeroAsiento();
+				$numTicket = $this->getNumeroTicket();
+				$idViaje = $objViaje->getCodigo();
+				
+				$consultaInsertar = "INSERT INTO pasajero(documento, numasiento, numticket, idviaje)
+					VALUES ($nroDoc, $numAsiento, $numTicket, $idViaje)";
 
-			if($base->Iniciar()){
-				if ($idPasajero = $base->devuelveIDInsercion($consultaInsertar)){
-					$this->setIdPasajero($idPasajero);
+				if ($base->Iniciar()) {
+					if ($base->Ejecutar($consultaInsertar)) {
+						$resp = true;
+					} else {
+						$this->setmensajeoperacion($base->getError());
+					}
+				} else {
+					$this->setmensajeoperacion($base->getError());
+				}
+			} else {
+				$this->setmensajeoperacion($base->getError());
+			}
+		}
+	
+		return $resp;
+	}
+
+	public function modificar(){
+		$resp = false; 
+		$base = new BaseDatos();
+		if (parent::modificar()) {
+			$objViaje = $this->getObjViaje();
+			if ($objViaje !== null) {
+				$idViaje = $objViaje->getCodigo();
+			} else {
+				$idViaje = "NULL"; // Asume que es nullable en la base de datos
+			}
+			$consultaModifica = "UPDATE pasajero SET 
+				numasiento = " . $this->getNumeroAsiento() . ", 
+				numticket = " . $this->getNumeroTicket() . ", 
+				idviaje = " . $idViaje . " 
+				WHERE documento = " . $this->getNrodoc();
+	
+			if ($base->Iniciar()) {
+				if ($base->Ejecutar($consultaModifica)) {
 					$resp = true;
 				} else {
 					$this->setMensajeOperacion($base->getError());
@@ -147,27 +194,7 @@ Class Pasajero extends Persona {
 				$this->setMensajeOperacion($base->getError());
 			}
 		}
-		return $resp;
-	}
-
-	public function modificar(){
-	    $resp =false; 
-	    $base=new BaseDatos();
-	    if(parent::modificar()){
-	    	$consultaModifica="UPDATE pasajero SET numasiento=".$this->getNumeroAsiento().", numticket = ". $this->getNumeroTicket(). ", idviaje=".$this->getObjViaje()." WHERE pdocumento=". $this->getNrodoc(); 
-	        if($base->Iniciar()){
-	            if($base->Ejecutar($consultaModifica)){
-	                $resp=  true;
-	            }else{
-	                $this->setmensajeoperacion($base->getError());
-	                
-	            }
-	        }else{
-	            $this->setmensajeoperacion($base->getError());
-	            
-	        }
-	    }
-		
+	
 		return $resp;
 	}
 

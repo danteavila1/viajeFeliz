@@ -187,11 +187,11 @@ class Viaje
 			if($base->Ejecutar($consultaviaje)){
 				if($row2=$base->Registro()){				
                     $this->setCodigo($id);
-					$this->setDestino($row2['vdestino']);
-					$this->setMaxPasajeros($row2['vmaxpasajeros']);
+					$this->setDestino($row2['destino']);
+					$this->setMaxPasajeros($row2['maxpasajeros']);
 					$this->setObjEmpresa($row2['idempresa']);
-                    $this->setObjResponsable($row2['rnumeroempleado']);
-                    $this->setCosto($row2['vimporte']);
+                    $this->setObjResponsable($row2['numeroempleado']);
+                    $this->setCosto($row2['importe']);
 					$resp= true;
 				}				
 			
@@ -222,11 +222,11 @@ class Viaje
 				while($row2=$base->Registro()){
 					
 					$IdViaje=$row2['idviaje'];
-					$Destino=$row2['vdestino'];
-					$CantMaxPas=$row2['vmaxpasajeros'];
+					$Destino=$row2['destino'];
+					$CantMaxPas=$row2['maxpasajeros'];
 					$IdEmpresa=$row2['idempresa'];
-					$RNumEmp=$row2['rnumeroempleado'];
-					$Importe=$row2['vimporte'];
+					$RNumEmp=$row2['numeroempleado'];
+					$Importe=$row2['importe'];
 
 					$viaje=new viaje();
 					$viaje->cargar($IdViaje,$Destino,$CantMaxPas,$IdEmpresa,$RNumEmp, $Importe);
@@ -250,7 +250,7 @@ class Viaje
 		$base=new BaseDatos();
 		$resp= false;
 
-                $consultaInsertar = "INSERT INTO viaje(idviaje, vdestino, vmaxpasajeros, idempresa, rnumeroempleado, vimporte) 
+                $consultaInsertar = "INSERT INTO viaje(idviaje, destino, maxpasajeros, idempresa, numeroempleado, importe) 
                 VALUES (" . $this->getCodigo() . ", '" . $this->getDestino() . "', " . $this->getMaxPasajeros() . ", " . $this->getObjEmpresa()->getId() . ", " . $this->getObjResponsable()->getNumeroEmpleado() . ", " . $this->getCosto() . ")";
 
 		
@@ -273,7 +273,7 @@ class Viaje
 	public function modificar(){
         $resp =false; 
         $base=new BaseDatos();
-		$consultaModifica="UPDATE viaje SET vdestino='".$this->getDestino()."',idempresa='".$this->getObjEmpresa()."',rnumeroempleado='".$this->getObjResponsable()."' WHERE idviaje=". $this->getCodigo();
+		$consultaModifica="UPDATE viaje SET destino='".$this->getDestino()."',idempresa='".$this->getObjEmpresa()."',numeroempleado='".$this->getObjResponsable()."' WHERE idviaje=". $this->getCodigo();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
                 $resp=  true;

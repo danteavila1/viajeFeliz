@@ -69,15 +69,15 @@ class Persona{
 	 */		
     public function Buscar($dni){ 
 		$base=new BaseDatos();
-		$consultaPersona="Select * from persona where pnumdoc=".$dni;
+		$consultaPersona="Select * from persona where numdoc=".$dni;
 		$resp= false;
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaPersona)){
 				if($row2=$base->Registro()){					
 				    $this->setNrodoc($dni);
-					$this->setNombre($row2['pnombre']);
-					$this->setApellido($row2['papellido']);
-					$this->setTelefono($row2['ptelefono']);
+					$this->setNombre($row2['nombre']);
+					$this->setApellido($row2['apellido']);
+					$this->setTelefono($row2['telefono']);
 					$resp= true;
 				}				
 			
@@ -107,10 +107,10 @@ class Persona{
 				$arregloPersona= array();
 				while($row2=$base->Registro()){
 					
-					$NroDoc=$row2['pnumdoc'];
-					$Nombre=$row2['pnombre'];
-					$Apellido=$row2['papellido'];
-					$telefono=$row2['ptelefono'];
+					$NroDoc=$row2['numdoc'];
+					$Nombre=$row2['nombre'];
+					$Apellido=$row2['apellido'];
+					$telefono=$row2['telefono'];
 				
 					$perso=new Persona();
 					$perso->cargar($NroDoc,$Nombre,$Apellido,$telefono);
@@ -136,7 +136,7 @@ class Persona{
 		$base=new BaseDatos();
 		$resp= false;
 		
-		$consultaInsertar = "INSERT INTO persona(pnumdoc, pnombre, papellido, ptelefono) 
+		$consultaInsertar = "INSERT INTO persona(numdoc, nombre, apellido, telefono) 
 			VALUES (".$this->getNrodoc().", '".$this->getNombre()."', '".$this->getApellido()."', '".$this->getTelefono()."')";
 
 
@@ -163,8 +163,8 @@ class Persona{
 	public function modificar(){
 	    $resp =false; 
 	    $base=new BaseDatos();
-		$consultaModifica="UPDATE persona SET papellido='".$this->getApellido()."',pnombre='".$this->getNombre()."'
-                           ,ptelefono='".$this->getTelefono()."' WHERE pnumdoc=". $this->getNrodoc();
+		$consultaModifica="UPDATE persona SET papellido='".$this->getApellido()."',nombre='".$this->getNombre()."'
+                           ,telefono='".$this->getTelefono()."' WHERE numdoc=". $this->getNrodoc();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
@@ -183,7 +183,7 @@ class Persona{
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM persona WHERE pnumdoc=".$this->getNrodoc();
+				$consultaBorra="DELETE FROM persona WHERE numdoc=".$this->getNrodoc();
 				if($base->Ejecutar($consultaBorra)){
 				    $resp=  true;
 				}else{
