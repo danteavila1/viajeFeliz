@@ -1,37 +1,10 @@
 <?php
 
-<<<<<<< HEAD
-=======
 include_once 'Viaje.php';
 include_once 'ResponsableV.php';
 include_once 'Pasajero.php';
 include_once 'Empresa.php';
 include_once 'BaseDatos.php';
-
-
-// $pasajero1 = new Pasajero('oscar', 'avila', 1235676, 2994502351, 1, 2);
-// $pasajero2 = new PasajeroVip('laura', 'laurelio', 32123654, 299123123, 1, 2, 12345, 350);
-// $pasajero3 = new PasajeroNecEsp('pedro', 'picapiedra', 42123542, 29998452, 1 , 2, false, true, false);
-
-// $responsable = new ResponsableV(1, 222, 'daniel', 'flores');
-
-// $viaje = new Viaje(1, 'londres', 10, [$pasajero1, $pasajero2, $pasajero3], $responsable, 100, 300);
-
-// echo $viaje->__toString();
-
-// $pasajero4 = new PasajeroVip('pedro', 'picapiedra', 1111, 29998452, 1 , 2, 1234, 100);
-
-// $precioPasaje = $viaje->venderPasaje($pasajero4);
-// if ($precioPasaje > -1) {
-//     echo ("el pasajero fue agregado con exito");
-// }
-// else{
-//     echo ("No se pudo agregar pasajero");
-// }
-
-
-
-// echo "\n". $viaje->__toString();
 
 
 echo "<<<<<<<<<<<<< Bienvenido >>>>>>>>>>>>> 
@@ -50,7 +23,21 @@ do {
 
     // VER INFORMACION DEL VIAJE
 
-    if ($valor == 1){
+    switch($valor){
+        case 1: 
+            verInformacionViaje();
+            break;
+        case 2:
+            venderPasaje();
+            break;
+        case 3:
+            ingresarViaje();
+            break;
+        case 4:
+
+    }
+
+    function verInformacionViaje(){
         $objViaje = new Viaje();
         echo "Ingrese el ID del viaje";
         $idViaje = trim(fgets(STDIN));
@@ -58,9 +45,7 @@ do {
         echo $objViaje;
     }
 
-    // VENDER PASAJE
-
-    if($valor == 2){
+    function venderPasaje(){
         echo "Ingrese el destino: \n";
         $destino = trim(fgets(STDIN));
         $objViaje = new Viaje();
@@ -101,9 +86,7 @@ do {
         }
     }
 
-    // INGRESAR VIAJE
-
-    if ($valor == 3){
+    function ingresarViaje(){
         mostrarEmpresa();
         echo "Ingrese el id de la empresa \n";
         $idEmpresa = trim(fgets(STDIN));
@@ -124,6 +107,83 @@ do {
             echo "No se registra el ID de empresa: " . $idEmpresa;
         }
     }
+
+
+
+    // if ($valor == 1){
+    //     $objViaje = new Viaje();
+    //     echo "Ingrese el ID del viaje";
+    //     $idViaje = trim(fgets(STDIN));
+    //     $objViaje->buscar($idViaje);
+    //     echo $objViaje;
+    // }
+
+    // VENDER PASAJE
+
+    // if($valor == 2){
+    //     echo "Ingrese el destino: \n";
+    //     $destino = trim(fgets(STDIN));
+    //     $objViaje = new Viaje();
+    //     $colViajes = $objViaje->listar("destino = " . " '$destino'"); 
+    //     if ($colViajes != null){
+    //         $i = 1;
+    //         foreach ($colViajes as $viaje){
+    //             echo "|N° ". $i . "|[" . $viaje . "]\n";
+    //             $i = $i + 1;
+    //         }
+    //         echo "ingrese el id de viaje que desea comprar:  \n";
+    //         $id=trim(fgets(STDIN));  
+    //         if($objViaje->Buscar($id)){
+    //             $objPasajero=new Pasajero();
+    //             $colObjPasajero=$objPasajero->listar();
+    //             if (count($colObjPasajero)<$objViaje->getcantidadMaxPasajeros()) {
+    //                 $asientosDisponibles=$objViaje->getcantidadMaxPasajeros()-count($colObjPasajero);
+    //                 echo "los asientos disponibles son:".$asientosDisponibles."\n";
+    //                 echo "Ingrese el Nombre: \n";
+    //                 $nombre=trim(fgets(STDIN));
+    //                 echo "Ingrese el apellido: \n";
+    //                 $apellido=trim(fgets(STDIN));
+    //                 echo "ingrese el DNI del pasajero: \n";
+    //                 $documento=trim(fgets(STDIN));
+    //                 echo "ingrese el numero de telefono: \n";
+    //                 $telefono=trim(fgets(STDIN));
+
+    //                 $objPasajero=new Pasajero();
+    //                 $objPasajero->cargar($documento,$nombre,$apellido,$telefono,$objViaje);
+    //                 $objPasajero->insertar();
+    //                 echo "\n ***Se vendio el pasaje con exito*** :v \n";
+    //             }
+    //         } else {
+    //             echo "error al ingresar el codigo \n";
+    //         }
+    //     } else {
+    //         echo "No hay lugares disponibles";
+    //     }
+    // }
+
+    // INGRESAR VIAJE
+
+    // if ($valor == 3){
+    //     mostrarEmpresa();
+    //     echo "Ingrese el id de la empresa \n";
+    //     $idEmpresa = trim(fgets(STDIN));
+
+    //     if($objEmpresa->Buscar($idEmpresa)){
+    //         $objViaje = new Viaje();
+    //         echo "Ingrese el destino: \n";
+    //         $destino = trim(fgets(STDIN));
+    //         echo "Ingrese la cantidad maxima de pasajeros: \n";
+    //         $cantMax = trim(fgets(STDIN));
+    //         $objViaje->cargar(10, $destino, $cantMax,[], $objEmpresa, null, 7);
+    //         mostrarResponsables();
+    //         if (agregarResponsable($objViaje)){
+    //             $objViaje->insertar();
+    //             echo "El viaje se ha cargado con exito \n";
+    //         }
+    //     } else {
+    //         echo "No se registra el ID de empresa: " . $idEmpresa;
+    //     }
+    // }
 
 }while($valor==1 || $valor==2 ||$valor==3 ||$valor==4||$valor==5||$valor==6 ||$valor==7);
 
@@ -181,6 +241,5 @@ function agregarResponsable($objViaje){
         }
     return $exito;
 }
->>>>>>> 49dee6549dbf94706dadf4ff3bbc4618f393d3ea
 
 

@@ -1,140 +1,145 @@
 <?php
+class Persona{
 
-/*CREATE TABLE persona (
-    nrodoc varchar(15),
-    pnombre varchar(150), 
-    papellido varchar(150), 
-	ptelefono varchar(150), 
-	direccion varchar(150),
-    PRIMARY KEY (nrodoc)	
-    )ENGINE=InnoDB DEFAULT CHARSET=utf8; */
+	private $nrodoc;
+	private $nombre;
+	private $apellido;
+	private $telefono;
+	private $mensajeoperacion;
 
-Class Persona {
-    private $nrodoc;
-    private $pnombre;
-    private $papellido;
-    private $ptelefono;
-    private $direccion;
-    private $mensajeoperacion;
 
-    public function __construct(){
-        $this->nrodoc = "";
-        $this->pnombre = "";
-        $this->papellido = "";
-        $this->ptelefono = "";
-        $this->direccion = "";
-        $this->mensajeoperacion = "";
-    }
-
-    public function cargar($pNumDoc,$pNombre, $pApellido, $pTelefono, $pDireccion){
-        $this->setNroDoc($pNumDoc);
-        $this->setNombre($pNombre);
-        $this->setApellido($pApellido);
-        $this->setTelefono($pTelefono);
-        $this->setDireccion($pDireccion);
-    }
-
-    //Metodos GET
-    public function getNroDoc(){
-        return $this->nrodoc;
-    }
-    public function getNombre(){
-        return $this->pnombre;
-    }
-    public function getApellido(){
-        return $this->papellido;
-    }
-    public function getTelefono(){
-        return $this->ptelefono;
-    }
-    public function getDireccion(){
-        return $this->direccion;
-    }
-    public function getMensajeOperacion(){
-        return $this->mensajeoperacion;
-    }
-
-    //Metodos SET
-    public function setNroDoc($pNumDoc){
-        $this->nrodoc = $pNumDoc;
-    }
-    public function setNombre($pNombre){
-        $this->pnombre = $pNombre;
-    }
-    public function setApellido($pApellido){
-        $this->papellido = $pApellido;
-    }
-    public function setTelefono($pTelefono){
-        $this->ptelefono = $pTelefono;
-    }
-    public function setDireccion($pDireccion){
-        $this->direccion = $pDireccion;
-    }
-    public function setMensajeOperacion($mensajeoperacion){
-        $this->mensajeoperacion = $mensajeoperacion;
-    }
-
-    public function Buscar($nroDoc){
-        $base = new BaseDatos();
-        $consultaPersona = "Select * from persona where nrodoc =" . $nroDoc;
-        $resp = false;
-        if($base->Iniciar()){
-            if($base->Ejecutar($consultaPersona)){
-                if($row2= $base->Registro()){
-                    $this->setNroDoc($nroDoc);
-                    $this->setNombre($row2['nombre']);
-                    $this->setApellido($row2['apellido']);
-                    $this->setTelefono($row2['telefono']);
-                    $this->setDireccion($row2['direccion']);
-                    $resp = true;
-                }
-            } else {
-                $this->setMensajeOperacion($base->getError());
-            }
-        }else {
-            $this->setMensajeOperacion($base->getError());
-        }
-        return $resp;
-    }
-
-    public function listar($condicion=""){
-        $arregloPersona = null;
-        $base = new BaseDatos();
-        $consultaPersonas ="Select * from persona ";
-        if ($condicion != ""){
-            $consultaPersonas = $consultaPersonas. ' where ' . $condicion;
-        }
-        $consultaPersonas .= " order by apellido";
-
-        if($base->Iniciar()){
-            if($base->Ejecutar($consultaPersonas)){
-                $arregloPersona = array();
-                while($row2 = $base->Registro()){
-                    $NroDoc = $row2['nrodoc'];
-                    $Nombre = $row2['nombre'];
-                    $Apellido=$row2['apellido'];
-                    $Telefono = $row2['telefono'];
-                    $Direccion = $row2['direccion'];
-
-                    $perso = new Persona();
-                    $perso->cargar($NroDoc, $Nombre, $Apellido, $Telefono, $Direccion);
-                    array_push($arregloPersona, $perso);
-                }
-            } else {
-                $this->setMensajeOperacion($base->getError());
-            }
-        } else {
-            $this->setMensajeOperacion($base->getError());
-        }
-        return $arregloPersona;
-    }
-
-    public function insertar(){
-        $base=new BaseDatos();
-		$resp= false;
-		$consultaInsertar="INSERT INTO persona(nrodoc,pnombre,papellido, ptelefono, direccion) 
-				VALUES (".$this->getNroDoc().",'" . $this->getApellido() . "','" . $this->getNombre() . "','". $this->getTelefono(). ", " . $this->getDireccion() ."')";
+	public function __construct(){
 		
+		$this->nrodoc = "";
+		$this->nombre = "";
+		$this->apellido = "";
+		$this->telefono = "";
+	}
+
+	public function cargar($nroDoc, $nombre, $apellido, $telefono){
+        $this->setNrodoc($nroDoc);
+        $this->setNombre($nombre);        
+        $this->setApellido($apellido);
+        $this->setTelefono($telefono);
+    }
+	
+	
+    public function setNrodoc($NroDNI){
+		$this->nrodoc=$NroDNI;
+	}
+	public function setNombre($Nom){
+		$this->nombre=$Nom;
+	}
+	public function setApellido($Ape){
+		$this->apellido=$Ape;
+	}
+	public function setTelefono($Tel){
+		$this->telefono=$Tel;
+	}
+	
+	public function setmensajeoperacion($mensajeoperacion){
+		$this->mensajeoperacion=$mensajeoperacion;
+	}
+	
+	public function getNrodoc(){
+		return $this->nrodoc;
+	}
+	public function getNombre(){
+		return $this->nombre ;
+	}
+	public function getApellido(){
+		return $this->apellido ;
+	}
+	public function getTelefono(){
+		return $this->telefono ;
+	}
+
+	
+	public function getmensajeoperacion(){
+		return $this->mensajeoperacion ;
+	}
+	
+	
+
+
+	/**
+	 * Recupera los datos de una persona por dni
+	 * @param int $dni
+	 * @return true en caso de encontrar los datos, false en caso contrario 
+	 */		
+    public function Buscar($dni){ 
+		$base=new BaseDatos();
+		$consultaPersona="Select * from persona where pnumdoc=".$dni;
+		$resp= false;
+		if($base->Iniciar()){
+			if($base->Ejecutar($consultaPersona)){
+				if($row2=$base->Registro()){					
+				    $this->setNrodoc($dni);
+					$this->setNombre($row2['pnombre']);
+					$this->setApellido($row2['papellido']);
+					$this->setTelefono($row2['ptelefono']);
+					$resp= true;
+				}				
+			
+		 	}	else {
+		 			$this->setmensajeoperacion($base->getError());
+		 		
+			}
+		 }	else {
+		 		$this->setmensajeoperacion($base->getError());
+		 	
+		 }		
+		 return $resp;
+	}	
+    
+
+	public function listar($condicion=""){
+	    $arregloPersona = null;
+		$base=new BaseDatos();
+		$consultaPersonas="Select * from persona ";
+		if ($condicion!=""){
+		    $consultaPersonas=$consultaPersonas.' where '.$condicion;
+		}
+		$consultaPersonas.=" order by papellido ";
+		//echo $consultaPersonas;
+		if($base->Iniciar()){
+			if($base->Ejecutar($consultaPersonas)){				
+				$arregloPersona= array();
+				while($row2=$base->Registro()){
+					
+					$NroDoc=$row2['pnumdoc'];
+					$Nombre=$row2['pnombre'];
+					$Apellido=$row2['papellido'];
+					$telefono=$row2['ptelefono'];
+				
+					$perso=new Persona();
+					$perso->cargar($NroDoc,$Nombre,$Apellido,$telefono);
+					array_push($arregloPersona,$perso);
+	
+				}
+				
+			
+		 	}	else {
+		 			$this->setmensajeoperacion($base->getError());
+		 		
+			}
+		 }	else {
+		 		$this->setmensajeoperacion($base->getError());
+		 	
+		 }	
+		 return $arregloPersona;
+	}	
+
+
+	
+	public function insertar(){
+		$base=new BaseDatos();
+		$resp= false;
+		
+		$consultaInsertar = "INSERT INTO persona(pnumdoc, pnombre, papellido, ptelefono) 
+			VALUES (".$this->getNrodoc().", '".$this->getNombre()."', '".$this->getApellido()."', '".$this->getTelefono()."')";
+
+
 		if($base->Iniciar()){
 
 			if($base->Ejecutar($consultaInsertar)){
@@ -151,13 +156,15 @@ Class Persona {
 			
 		}
 		return $resp;
-    }
-
-    public function modificar(){
+	}
+	
+	
+	
+	public function modificar(){
 	    $resp =false; 
 	    $base=new BaseDatos();
-		$consultaModifica="UPDATE persona SET apellido='".$this->getApellido()."',nombre='".$this->getNombre()."'
-                           ,telefono='".$this->getTelefono()."',direccion='".$this->getDireccion()."' WHERE nrodoc=". $this->getNroDoc();
+		$consultaModifica="UPDATE persona SET papellido='".$this->getApellido()."',pnombre='".$this->getNombre()."'
+                           ,ptelefono='".$this->getTelefono()."' WHERE pnumdoc=". $this->getNrodoc();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
@@ -171,12 +178,12 @@ Class Persona {
 		}
 		return $resp;
 	}
-
-    public function eliminar(){
+	
+	public function eliminar(){
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM persona WHERE nrodoc=".$this->getNroDoc();
+				$consultaBorra="DELETE FROM persona WHERE pnumdoc=".$this->getNrodoc();
 				if($base->Ejecutar($consultaBorra)){
 				    $resp=  true;
 				}else{
@@ -190,8 +197,9 @@ Class Persona {
 		return $resp; 
 	}
 
-    public function __toString(){
-        return "Numero de documento: " . $this->getNroDoc() . "\n Nombre: " . $this->getNombre() . "\n Apellido: " . $this->getApellido() . "\n Telefono: " . $this->getTelefono() . "\n Direccion: " . $this->getDireccion();
+	public function __toString(){
+	    return "\nNombre: ".$this->getNombre(). "\n Apellido:".$this->getApellido()."\n DNI: ".$this->getNrodoc()."\n Telefono: ".$this->getTelefono()."\n" ;
 			
 	}
 }
+?>
