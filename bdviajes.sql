@@ -18,8 +18,10 @@ CREATE TABLE responsable (
     numeroempleado bigint AUTO_INCREMENT,
     numerolicencia bigint,
     numdoc bigint,
-    PRIMARY KEY (rnumeroempleado),
-    FOREIGN KEY (rnumdoc) REFERENCES persona(pnumdoc)
+    PRIMARY KEY (numeroempleado),
+    FOREIGN KEY (numdoc) REFERENCES persona(numdoc)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 	
 CREATE TABLE viaje (
@@ -33,7 +35,7 @@ CREATE TABLE viaje (
     FOREIGN KEY (idempresa) REFERENCES empresa (idempresa) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (numeroempleado) REFERENCES responsable (numeroempleado)
     ON UPDATE CASCADE
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
 	
     CREATE TABLE pasajero ( 
@@ -44,9 +46,9 @@ CREATE TABLE viaje (
     idviaje bigint, 
     PRIMARY KEY (idpasajero), 
     FOREIGN KEY (documento) REFERENCES persona (numdoc)  ON UPDATE CASCADE
-    ON DELETE CASCADE,
+    ON DELETE RESTRICT,
     FOREIGN KEY (idviaje) REFERENCES viaje (idviaje)  ON UPDATE CASCADE
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
     )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
