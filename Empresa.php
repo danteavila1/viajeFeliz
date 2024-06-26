@@ -115,7 +115,7 @@ class Empresa {
 		if($base->Iniciar()){
 
 			if($base->Ejecutar($consultaInsertar)){
-
+				$this->setId($base->devuelveIDInsercion($consultaInsertar));  // Obtener el último ID insertado
 			    $resp=  true;
 
 			}	else {
