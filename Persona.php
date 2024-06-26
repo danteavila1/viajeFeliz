@@ -100,7 +100,7 @@ class Persona{
 		if ($condicion!=""){
 		    $consultaPersonas=$consultaPersonas.' where '.$condicion;
 		}
-		$consultaPersonas.=" order by papellido ";
+		$consultaPersonas.=" order by apellido ";
 		//echo $consultaPersonas;
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaPersonas)){				
@@ -163,7 +163,7 @@ class Persona{
 	public function modificar(){
 	    $resp =false; 
 	    $base=new BaseDatos();
-		$consultaModifica="UPDATE persona SET papellido='".$this->getApellido()."',nombre='".$this->getNombre()."'
+		$consultaModifica="UPDATE persona SET apellido='".$this->getApellido()."',nombre='".$this->getNombre()."'
                            ,telefono='".$this->getTelefono()."' WHERE numdoc=". $this->getNrodoc();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){

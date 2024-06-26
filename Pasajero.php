@@ -16,8 +16,8 @@ Class Pasajero extends Persona {
 		$this->objViaje = null;
 	}
 
-    public function cargar($nroDoc, $nombre, $apellido, $telefono, $direccion, $idPasajero = null, $numAsiento = null, $numTicket = null, $objetoViaje = null) {
-        parent::cargar($nroDoc, $nombre, $apellido, $telefono, $direccion);
+    public function cargar($nroDoc, $nombre, $apellido, $telefono, $idPasajero = null, $numAsiento = null, $numTicket = null, $objetoViaje = null) {
+        parent::cargar($nroDoc, $nombre, $apellido, $telefono);
         if ($idPasajero !== null) $this->setIdPasajero($idPasajero);
         if ($numAsiento !== null) $this->setNumeroAsiento($numAsiento);
         if ($numTicket !== null) $this->setNumeroTicket($numTicket);
@@ -80,7 +80,7 @@ Class Pasajero extends Persona {
 					parent :: Buscar($dni);			 
 					$this->setIdPasajero($row2['idpasajero']);
 					$this->setNumeroAsiento($row2['numasiento']);
-					$this->setNumeroTicket($row2['numTicket']);
+					$this->setNumeroTicket($row2['numticket']);
 
 					$this->setObjViaje($row2['idviaje']);
 					$objViaje = new Viaje();
@@ -109,7 +109,7 @@ Class Pasajero extends Persona {
 		if ($condicion != ""){
 		    $consulta = $consulta .' where '. $condicion;
 		}
-		$consulta .= " order by papellido ";
+		$consulta .= " order by apellido ";
 
 		if ($base->Iniciar()) {
 			if ($base->Ejecutar($consulta)) {				
@@ -205,9 +205,10 @@ Class Pasajero extends Persona {
 		if ($base->Iniciar()) {
 				$consultaBorra = "DELETE FROM pasajero WHERE documento = " . $this->getNroDoc();
 				if ($base->Ejecutar($consultaBorra)) {
-					if(parent::eliminar()){
+					//consultar por el delete restric, que no me restrige cuando quiero borrar un pasajero
+					//if(parent::eliminar()){
 						$resp=  true;
-					}
+					//}
 				}
                 else {
 					$this->setMensajeOperacion($base->getError());	
