@@ -181,18 +181,24 @@ function verDatosViaje() {
 }
 
 function cargarInformacionEmpresa() {
-    $idEmpresa = readline("Ingrese el id de la empresa: ");
+    //es necesario pedir el id de la empresa? Ponga lo que ponga se incrementa solo
+    //$idEmpresa = readline("Ingrese el id de la empresa: ");
     $nombreEmpresa = readline("Ingrese el nombre de la empresa: ");
     $direccionEmpresa = readline("Ingrese la dirección de la empresa: ");
     $empresa = new Empresa();
     $empresa->cargar(null, $nombreEmpresa, $direccionEmpresa);
-    $empresa->insertar();
+    if( $empresa->insertar()){
+        echo ("Empresa agregada con exito. Su ID es: ". $empresa->getId() . "\n");
+    } else{
+        echo ("No se ha podido agregar la empresa\n");
+    }
 }
 
 function modificarInformacionEmpresa() {
+    $empresa = new Empresa();
+    echo "Empresas existentes: \n". getStringArray($empresa->listar()). "\n";
     echo "Ingrese el id de la empresa que desea modificar:\n";
     $id = trim(fgets(STDIN));
-    $empresa = new Empresa();
     if(!$empresa->Buscar($id)){
         echo "La empresa no ha podido ser encontrada\n";
         return;
@@ -207,9 +213,11 @@ function modificarInformacionEmpresa() {
 }
 
 function eliminarInformacionEmpresa() {
+    $empresa = new Empresa();
+    echo "Empresas existentes: \n". getStringArray($empresa->listar()). "\n";
     echo "Ingrese el Id de la empresa que desea eliminar:\n";
     $id = trim(fgets(STDIN));
-    $empresa = new Empresa();
+    //deberia consultar si está seguro que desea eliminar
     if($empresa->Buscar($id)) {
         $empresa->eliminar();
         echo "La empresa ha sido eliminada correctamente.\n";
@@ -350,14 +358,17 @@ function modificarEmpresa($empresa, $eleccion) {
         case '1':
             echo "Este es el nombre actual de la empresa: " . $empresa->getNombre() . "\n";
             $empresa->setNombre(readline("Ingrese el nuevo nombre de la empresa: "));
+            echo "Información modificada con exito: \n";
             break;
         case '2':
             echo "Esta es la dirección actual de la empresa: " . $empresa->getDireccion() . "\n";
             $empresa->setDireccion(readline("Ingrese la nueva dirección de la empresa: "));
+            echo "Información modificada con exito: \n";
             break;
         case '3':
             $empresa->setNombre(readline("Ingrese el nuevo nombre de la empresa: "));
             $empresa->setDireccion(readline("Ingrese la nueva dirección de la empresa: "));
+            echo "Información modificada con exito: \n";
             break;
         default:
             echo "Opción inválida. Por favor, seleccione una opción válida.\n";
@@ -365,4 +376,13 @@ function modificarEmpresa($empresa, $eleccion) {
     }
     $empresa->modificar();
 }
+
+function getStringArray($array){
+    $cadena = "";
+    foreach($array as $elemento){
+        $cadena = $cadena . " " . $elemento . "\n";
+    }
+    return $cadena;
+}
+
 ?>
