@@ -250,14 +250,15 @@ class Viaje
 		$base=new BaseDatos();
 		$resp= false;
 
-                $consultaInsertar = "INSERT INTO viaje(idviaje, destino, maxpasajeros, idempresa, numeroempleado, importe) 
-                VALUES (" . $this->getCodigo() . ", '" . $this->getDestino() . "', " . $this->getMaxPasajeros() . ", " . $this->getObjEmpresa()->getId() . ", " . $this->getObjResponsable()->getNumeroEmpleado() . ", " . $this->getCosto() . ")";
+                $consultaInsertar = "INSERT INTO viaje(destino, maxpasajeros, idempresa, numeroempleado, importe) 
+                VALUES (" . $this->getDestino() . "', " . $this->getMaxPasajeros() . ", " . $this->getObjEmpresa()->getId() . ", " . $this->getObjResponsable()->getNumeroEmpleado() . ", " . $this->getCosto() . ")";
 
 		
 		if($base->Iniciar()){
 
-			if($base->Ejecutar($consultaInsertar)){
-                $resp=  true;
+            if($idViaje = $base->devuelveIDInsercion($consultaInsertar)){
+                $this->setCodigo($idViaje);
+			    $resp=  true;
 			}	else {
 					$this->setmensajeoperacion($base->getError());
 					

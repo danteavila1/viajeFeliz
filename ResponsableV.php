@@ -90,12 +90,14 @@ class ResponsableV extends Persona
 		$resp= false;
 		if(parent::insertar()){
 		
-			$consultaInsertar = "INSERT INTO responsable (numeroempleado, numerolicencia, numdoc) 
-                     VALUES (" . $this->getNumeroEmpleado() . ", " . $this->getNumeroLicencia() . ", " . $this->getNrodoc() . ")";
+			$consultaInsertar = "INSERT INTO responsable (numerolicencia, numdoc) 
+                     VALUES (" . $this->getNumeroLicencia() . ", " . $this->getNrodoc() . ")";
 
 		    if($base->Iniciar()){
-		        if($base->Ejecutar($consultaInsertar)){
-		            $resp=  true;
+
+				if($numeroEmpleado = $base->devuelveIDInsercion($consultaInsertar)){
+					$this->setNumeroEmpleado($numeroEmpleado);
+					$resp=  true;
 		        }	else {
 		            $this->setmensajeoperacion($base->getError());
 		        }

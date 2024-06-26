@@ -53,7 +53,7 @@ class BaseDatos {
                 $this->ERROR = mysqli_errno($conexion) . ": " .mysqli_error($conexion);
             }
         }else{
-            $this->ERROR =  mysqli_errno($conexion) . ": " .mysqli_error($conexion);
+            $this->ERROR =  mysqli_connect_errno($conexion) . ": " .mysqli_connect_error($conexion);
         }
         return $resp;
     }

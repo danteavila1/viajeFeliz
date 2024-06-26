@@ -76,24 +76,28 @@ function cargarInformacionViaje() {
     $nombreResponsableV = readline("Ingrese el Nombre del responsable del nuevo viaje: ");
     $apellidoResponsableV  = readline("Ingrese el apellido del responsable del nuevo viaje: ");
     $telefonoResponsableV = readline("Ingrese el telefono del responsable del nuevo viaje: ");
-    $numEmpleado = readline("Ingrese el numero de empleado del responsable del nuevo viaje: ");
+    // $numEmpleado = readline("Ingrese el numero de empleado del responsable del nuevo viaje: ");
     $numLicencia = readline("Ingrese el numero de licencia del responsable del nuevo viaje: ");
     $nuevoResponsable = new ResponsableV();
-    $nuevoResponsable->cargar($nroDocResponsableV, $nombreResponsableV, $apellidoResponsableV, $telefonoResponsableV, $numEmpleado, $numLicencia);
-    if($nuevoResponsable->Buscar($numEmpleado)){
-        echo "Esta persona ya ha sido cargada\n";
-        return;
-    } else {
-        $nuevoResponsable->insertar();
-    }
+    $nuevoResponsable->cargar($nroDocResponsableV, $nombreResponsableV, $apellidoResponsableV, $telefonoResponsableV,null, $numLicencia);
 
-    $codigo = readline("Ingrese el codigo del nuevo viaje: ");
+    //si es auto increment y no se repiten, por que buscar?
+    // if($nuevoResponsable->Buscar($numEmpleado)){
+    //     echo "Esta persona ya ha sido cargada\n";
+    //     return;
+    // } else {
+    //     $nuevoResponsable->insertar();
+    // }
+
+    $nuevoResponsable->insertar();
+
+    // $codigo = readline("Ingrese el codigo del nuevo viaje: ");
     $destino = readline("Ingrese el destino del nuevo viaje: ");
     $maxPasajeros = readline("Ingrese la cantidad maxima de pasajeros del nuevo viaje: ");
     $costoDelViaje = readline("Ingrese el costo del viaje: ");
 
     $viaje = new Viaje();
-    $viaje->cargar($codigo, $destino, $maxPasajeros, $nuevoResponsable, $costoDelViaje, $empresa);
+    $viaje->cargar(null, $destino, $maxPasajeros, $nuevoResponsable, $costoDelViaje, $empresa);
     $viaje->insertar();
 }
 

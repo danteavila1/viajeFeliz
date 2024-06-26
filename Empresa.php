@@ -114,8 +114,8 @@ class Empresa {
 				VALUES ('".$this->getNombre()."','".$this->getDireccion()."')";
 		if($base->Iniciar()){
 
-			if($base->Ejecutar($consultaInsertar)){
-				$this->setId($base->devuelveIDInsercion($consultaInsertar));  // Obtener el último ID insertado
+			if($id = $base->devuelveIDInsercion($consultaInsertar)){
+                $this->setId($id);
 			    $resp=  true;
 
 			}	else {
