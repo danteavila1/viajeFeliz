@@ -19,10 +19,10 @@ class Viaje
         $this->destino = "";
         $this->maxPasajeros = "";
         $this->pasajerosArray=[]; 
-        $this->objResponsable = null ; 
+        $this->objResponsable = NULL ; 
         $this->costo = "";
         $this->costosAbonados = 0;
-        $this->objEmpresa = null ;
+        $this->objEmpresa = NULL ;
     }
     public function cargar($cod,$dest,$maxPas,$resp, $costo, $objEmpresa){
         $this->setCodigo($cod);
@@ -136,7 +136,7 @@ class Viaje
     public function hayPasajesDisponibles()
     {
         $retorno = false;
-        $cantidadDePasajeros = count($this->pasajerosArray);
+        $cantidadDePasajeros = count($this->getPasajerosArray());
         if ($this->getMaxPasajeros() > $cantidadDePasajeros) {
             $retorno = true;
         }
@@ -220,7 +220,7 @@ class Viaje
 			if($base->Ejecutar($consultaviajes)){				
 				$arregloviaje= array();
 				while($row2=$base->Registro()){
-					
+                    
 					$IdViaje=$row2['idviaje'];
 					$Destino=$row2['destino'];
 					$CantMaxPas=$row2['maxpasajeros'];
@@ -251,13 +251,12 @@ class Viaje
 		$resp= false;
 
                 $consultaInsertar = "INSERT INTO viaje(destino, maxpasajeros, idempresa, numeroempleado, importe) 
-                VALUES (" . $this->getDestino() . "', " . $this->getMaxPasajeros() . ", " . $this->getObjEmpresa()->getId() . ", " . $this->getObjResponsable()->getNumeroEmpleado() . ", " . $this->getCosto() . ")";
+                VALUES ('" . $this->getDestino() . "', " . $this->getMaxPasajeros() . ", " . $this->getObjEmpresa()->getId() . ", " . $this->getObjResponsable()->getNumeroEmpleado() . ", " . $this->getCosto() . ")";
 
-		
 		if($base->Iniciar()){
 
-            if($idViaje = $base->devuelveIDInsercion($consultaInsertar)){
-                $this->setCodigo($idViaje);
+            if($codigo = $base->devuelveIDInsercion($consultaInsertar)){
+                $this->setCodigo($codigo);
 			    $resp=  true;
 			}	else {
 					$this->setmensajeoperacion($base->getError());
@@ -295,7 +294,7 @@ class Viaje
 		if($base->Iniciar()){
 				$consultaBorra="DELETE FROM viaje WHERE idviaje=".$this->getCodigo();
 				if($base->Ejecutar($consultaBorra)){
-                    $resp=  true;
+                    $resp = true;
 				}else{
 						$this->setmensajeoperacion($base->getError());
 					

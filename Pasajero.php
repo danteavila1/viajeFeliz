@@ -81,8 +81,7 @@ Class Pasajero extends Persona {
 					$this->setIdPasajero($row2['idpasajero']);
 					$this->setNumeroAsiento($row2['numasiento']);
 					$this->setNumeroTicket($row2['numticket']);
-
-					$this->setObjViaje($row2['idviaje']);
+//cargar
 					$objViaje = new Viaje();
 					$objViaje->Buscar($row2['idviaje']);
 					$this->setObjViaje($objViaje);

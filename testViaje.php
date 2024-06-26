@@ -72,7 +72,7 @@ function cargarInformacionViaje() {
         echo "La empresa es ".$empresa->getNombre()."\n";
     }
 
-    $nroDocResponsableV = readline("Ingrese el numero de documento empleado del responsable del nuevo viaje: ");
+    $nroDocResponsableV = readline("Ingrese el numero de documento del responsable del nuevo viaje: ");
     $nombreResponsableV = readline("Ingrese el Nombre del responsable del nuevo viaje: ");
     $apellidoResponsableV  = readline("Ingrese el apellido del responsable del nuevo viaje: ");
     $telefonoResponsableV = readline("Ingrese el telefono del responsable del nuevo viaje: ");
@@ -174,9 +174,9 @@ function eliminarInformacionViaje() {
 }
 
 function verDatosViaje() {
+    $viaje = new Viaje();
     echo "Ingrese el Id del viaje:\n";
     $id = trim(fgets(STDIN));
-    $viaje = new Viaje();
     if($viaje->Buscar($id)) {
         echo $viaje;
     } else {
