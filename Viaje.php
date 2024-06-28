@@ -246,7 +246,12 @@ class Viaje
 	public function modificar(){
         $resp =false; 
         $base=new BaseDatos();
-		$consultaModifica="UPDATE viaje SET destino='".$this->getDestino()."',idempresa='".$this->getObjEmpresa()."',numeroempleado='".$this->getObjResponsable()."' WHERE idviaje=". $this->getCodigo();
+		$consultaModifica="UPDATE viaje SET 
+        destino= '".$this->getDestino()."' ,
+        maxpasajeros= ".$this->getMaxPasajeros().",
+        idempresa = '" .$this->getObjEmpresa() . "',
+        numeroempleado = '" .$this->getObjResponsable()."'
+        WHERE idviaje=". $this->getCodigo();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
                 $resp=  true;
