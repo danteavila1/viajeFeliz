@@ -250,7 +250,8 @@ class Viaje
         destino= '".$this->getDestino()."' ,
         maxpasajeros= ".$this->getMaxPasajeros().",
         idempresa = '" .$this->getObjEmpresa() . "',
-        numeroempleado = '" .$this->getObjResponsable()."'
+        numeroempleado = '" .$this->getObjResponsable()."',
+        importe = " .$this->getCosto(). "
         WHERE idviaje=". $this->getCodigo();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
