@@ -141,7 +141,9 @@ Class Pasajero extends Persona {
 			$objViaje = $this->getObjViaje();
 			
 			if ($objViaje !== null) {
+
 				// Asume que idPasajero es auto increment y no lo incluimos en la consulta.
+				
 				$nroDoc = $this->getNrodoc();
 				$numAsiento = $this->getNumeroAsiento();
 				$numTicket = $this->getNumeroTicket();

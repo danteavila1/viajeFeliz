@@ -8,7 +8,6 @@ class Viaje
     private $pasajerosArray;
     private $objResponsable;
     private $costo;
-    private $costosAbonados;
     private $objEmpresa;
     private $mensajeoperacion;
 
@@ -21,17 +20,17 @@ class Viaje
         $this->pasajerosArray=[]; 
         $this->objResponsable = NULL ; 
         $this->costo = "";
-        $this->costosAbonados = 0;
         $this->objEmpresa = NULL ;
     }
-    public function cargar($cod,$dest,$maxPas,$resp, $costo, $objEmpresa){
-        $this->setCodigo($cod);
+
+    public function cargar($dest,$maxPas,$resp, $costo, $objEmpresa){
         $this->setDestino($dest);
         $this->setMaxPasajeros($maxPas);
         $this->setObjResponsable($resp); 
         $this->setCosto($costo); 
-        $this->setObjEmpresa($objEmpresa);     
+        $this->setObjEmpresa($objEmpresa);
     }
+
     // Métodos de acceso (getters)
     public function getCodigo()
     {
@@ -61,10 +60,7 @@ class Viaje
     {
         return $this->costo;
     }
-    public function getCostosAbonados()
-    {
-        return $this->costosAbonados;
-    }
+
     public function getObjEmpresa()
     {
         return $this->objEmpresa;
@@ -73,10 +69,7 @@ class Viaje
 		return $this->mensajeoperacion ;
 	}
     // Métodos de modificación (setters)
-    public function setCostosAbonados($costos)
-    {
-        $this->costosAbonados = $costos;
-    }
+
     public function setCosto($costo)
     {
         $this->costo = $costo;
@@ -112,16 +105,7 @@ class Viaje
     public function setmensajeoperacion($mensajeoperacion){
 		$this->mensajeoperacion=$mensajeoperacion;
 	}
-    public function venderPasaje($objPasajero)
-    {
-        $costoFinal = -1;
-        if ($this->agregarPasajero($objPasajero)) {
-            $costoFinal = $this->getCosto();
-            $costoFinal *= (1 + $objPasajero->darPorcentajeIncremento() / 100);
-            $this->setCostosAbonados($this->getCostosAbonados() + $costoFinal);
-        }
-        return $costoFinal;
-    }
+
     public function agregarPasajero($objPasajero)
     {
         $retorno = false;
@@ -187,12 +171,8 @@ class Viaje
 			if($base->Ejecutar($consultaviaje)){
 				if($row2=$base->Registro()){				
                     $this->setCodigo($id);
-					$this->setDestino($row2['destino']);
-					$this->setMaxPasajeros($row2['maxpasajeros']);
-					$this->setObjEmpresa($row2['idempresa']);
-                    $this->setObjResponsable($row2['numeroempleado']);
-                    $this->setCosto($row2['importe']);
-					$resp= true;
+                    $this->cargar($row2['destino'], $row2['maxpasajeros'], $row2['numeroempleado'], $row2['importe'], $row2['idempresa']);
+                    $resp= true;
 				}				
 			
             }	else {
@@ -221,15 +201,8 @@ class Viaje
 				$arregloviaje= array();
 				while($row2=$base->Registro()){
                     
-					$IdViaje=$row2['idviaje'];
-					$Destino=$row2['destino'];
-					$CantMaxPas=$row2['maxpasajeros'];
-					$IdEmpresa=$row2['idempresa'];
-					$RNumEmp=$row2['numeroempleado'];
-					$Importe=$row2['importe'];
-
 					$viaje=new viaje();
-					$viaje->cargar($IdViaje,$Destino,$CantMaxPas,$IdEmpresa,$RNumEmp, $Importe);
+					$viaje->Buscar($row2['idviaje']); //en buscar lo carga
 					array_push($arregloviaje,$viaje);
 	
 				}

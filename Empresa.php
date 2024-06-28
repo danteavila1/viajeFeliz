@@ -86,7 +86,7 @@ class Empresa {
 					$IdEmpresa=$row2['idempresa'];
 					$Nombre=$row2['nombre'];
 					$Direccion=$row2['direccion'];
-
+//bien
 					$empresa=new Empresa();
 					$empresa->cargar($IdEmpresa,$Nombre,$Direccion);
 					array_push($arregloEmpresa,$empresa);

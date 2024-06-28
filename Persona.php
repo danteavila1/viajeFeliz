@@ -74,10 +74,13 @@ class Persona{
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaPersona)){
 				if($row2=$base->Registro()){					
-				    $this->setNrodoc($dni);
-					$this->setNombre($row2['nombre']);
-					$this->setApellido($row2['apellido']);
-					$this->setTelefono($row2['telefono']);
+				    // $this->setNrodoc($dni);
+					// $this->setNombre($row2['nombre']);
+					// $this->setApellido($row2['apellido']);
+					// $this->setTelefono($row2['telefono']);
+					// $resp= true;
+					
+					$this->cargar($dni,$row2['nombre'], $row2['apellido'], $row2['telefono']);
 					$resp= true;
 				}				
 			
