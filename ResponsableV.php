@@ -18,6 +18,7 @@ class ResponsableV extends Persona
         $this->setNumeroLicencia($numeroLicencia);
     }
 
+
     public function getNumeroEmpleado()
     {
         return $this->numeroEmpleado;
@@ -39,7 +40,7 @@ class ResponsableV extends Persona
     }
     public function Buscar($numeroEmpleado){
 		$base=new BaseDatos();
-        $consulta="SELECT * FROM responsable WHERE rnumeroempleado=".$numeroEmpleado; 
+        $consulta="SELECT * FROM responsable WHERE numeroempleado=".$numeroEmpleado; 
         $resp= false;
         if($base->Iniciar()){
             if($base->Ejecutar($consulta)){
@@ -113,7 +114,7 @@ class ResponsableV extends Persona
 			$resp =false; 
 			$base=new BaseDatos();
 			if(parent::modificar()){
-				$consultaModifica="UPDATE responsable SET rnumerolicencia=".$this->getNumeroLicencia()." WHERE numeroempleado=". $this->getNumeroEmpleado(); 
+				$consultaModifica="UPDATE responsable SET numerolicencia=".$this->getNumeroLicencia()." WHERE numeroempleado=". $this->getNumeroEmpleado(); 
 				if($base->Iniciar()){
 					if($base->Ejecutar($consultaModifica)){
 						$resp=  true;

@@ -232,6 +232,7 @@ function eliminarInformacionEmpresa() {
 
 function agregarPasajero() {
     $viaje = new Viaje();
+    $nuevoPasajero = new Pasajero();
     echo "Ingrese el id del viaje:\n";
     $id = trim(fgets(STDIN));
 
@@ -254,7 +255,7 @@ function agregarPasajero() {
                 return;
             }
 
-            $nuevoPasajero = new Pasajero();
+            // $nuevoPasajero = new Pasajero();
             $nuevoPasajero->cargar($numDocPasajero, $nombrePasajero, $apellidoPasajero, $telefonoPasajero, null, $numAsiento, $numTicket, $viaje);
 
             if ($nuevoPasajero->Buscar($numDocPasajero)) {
@@ -331,12 +332,16 @@ function eliminarPasajero() {
 }
 
 function modificarResponsableViaje($viaje, $opcion) {
-    $responsable = $viaje->getObjResponsable();
+    $responsable = new ResponsableV();
+    $numeroEmpleado = $viaje->getObjResponsable();
+    $responsable->Buscar($numeroEmpleado);
+
     switch ($opcion) {
         case '1':
-            echo "Este es el numero de licencia actual del responsable del viaje: " . $responsable->getNumLicencia() . "\n";
-            $responsable->setNumLicencia(readline("Ingrese el nuevo numero de licencia del responsable del viaje: "));
-            break;
+            echo "Este es el numero de licencia actual del responsable del viaje: " . $responsable->getNumeroLicencia() . "\n";
+            $nuevoNumeroLicencia = readline("Ingrese el nuevo numero de licencia del responsable del viaje: ");
+            $responsable->setNumeroLicencia($nuevoNumeroLicencia);
+    break;
         case '2':
             echo "Este es el nombre actual del responsable del viaje: " . $responsable->getNombre() . "\n";
             $responsable->setNombre(readline("Ingrese el nuevo nombre del responsable del viaje: "));
@@ -346,7 +351,8 @@ function modificarResponsableViaje($viaje, $opcion) {
             $responsable->setApellido(readline("Ingrese el nuevo apellido del responsable del viaje: "));
             break;
         case '4':
-            $responsable->setNumLicencia(readline("Ingrese el nuevo numero de licencia del responsable del viaje: "));
+            $nuevoNumeroLicencia = readline("Ingrese el nuevo numero de licencia del responsable del viaje: ");
+            $responsable->setNumeroLicencia($nuevoNumeroLicencia);
             $responsable->setNombre(readline("Ingrese el nuevo nombre del responsable del viaje: "));
             $responsable->setApellido(readline("Ingrese el nuevo apellido del responsable del viaje: "));
             break;
