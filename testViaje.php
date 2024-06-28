@@ -108,8 +108,7 @@ function modificarInformacionViaje() {
         echo "2. Modificar maximo de pasajeros del viaje\n";
         echo "3. Modificar responsable del viaje\n";
         echo "4. Modificar costos del viaje\n";
-        echo "5. Modificar Empresa\n";
-        echo "6. Volver al menu anterior\n";
+        echo "5. Volver al menu anterior\n";
         $opcion = readline("Ingrese la opción deseada: ");
         $viaje = new Viaje();
         echo "Ingrese el id del viaje:\n";
@@ -145,14 +144,6 @@ function modificarInformacionViaje() {
                 $viaje->modificar();
                 break;
             case '5':
-                echo "Qué información desea modificar de la empresa?\n";
-                echo "1- El nombre\n";
-                echo "2- La dirección\n";
-                echo "3- Todos los datos\n";
-                $eleccion = trim(fgets(STDIN));
-                modificarEmpresa($viaje, $eleccion);
-                break;
-            case '6':
                 return;
             default:
                 echo "Opción inválida. Por favor, seleccione una opción válida.\n";
