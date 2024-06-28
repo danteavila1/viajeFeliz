@@ -97,7 +97,7 @@ function cargarInformacionViaje() {
     $costoDelViaje = readline("Ingrese el costo del viaje: ");
 
     $viaje = new Viaje();
-    $viaje->cargar(null, $destino, $maxPasajeros, $nuevoResponsable, $costoDelViaje, $empresa);
+    $viaje->cargar($destino, $maxPasajeros, $nuevoResponsable, $costoDelViaje, $empresa);
     $viaje->insertar();
 }
 
@@ -331,7 +331,7 @@ function eliminarPasajero() {
 }
 
 function modificarResponsableViaje($viaje, $opcion) {
-    $responsable = $viaje->getResponsable();
+    $responsable = $viaje->getObjResponsable();
     switch ($opcion) {
         case '1':
             echo "Este es el numero de licencia actual del responsable del viaje: " . $responsable->getNumLicencia() . "\n";
